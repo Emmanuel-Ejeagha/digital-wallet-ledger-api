@@ -1,4 +1,5 @@
 using System;
+using DigitalWallet.Domain.Exceptions;
 
 namespace DigitalWallet.Domain.ValueObjects;
 /// <summary>
