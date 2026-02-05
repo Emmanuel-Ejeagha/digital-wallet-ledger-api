@@ -7,7 +7,7 @@ namespace DigitalWallet.Domain.Entities;
 /// Ledger Account for double-entry accounting
 /// CRITICAL: Every financial transaction affects at least two accounts
 /// </summary>
-public sealed class Account : AuditabilityEntity
+public sealed class Account : AuditableEntity
 {
     // Account identification
     public string AccountNumber { get; private set; }
