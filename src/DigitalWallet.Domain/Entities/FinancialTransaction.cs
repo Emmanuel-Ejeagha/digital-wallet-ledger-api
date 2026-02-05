@@ -8,7 +8,7 @@ namespace DigitalWallet.Domain.Entities;
 /// A complete financial transaction with double-entry accounting
 /// CRITICAL: Atomic unit of work that maintains financial integrity
 /// </summary>
-public sealed class FinancialTransaction : AuditabilityEntity
+public sealed class FinancialTransaction : AuditableEntity
 {
     // Transaction metadata
     public string Description { get; private set; }
