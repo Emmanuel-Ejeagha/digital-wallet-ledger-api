@@ -7,7 +7,7 @@ namespace DigitalWallet.Domain.ValueObjects;
 /// IMMUTABLE: Once created, cannot be changed
 /// CRITICAL: Financial systems must handle currencies correctly
 /// </summary>
-public class Currency : IEquatable<Currency>
+public sealed class Currency : IEquatable<Currency>
 {
     // ISO 427 currency code (USD, EURO, GBP, etc.)
     public string Code { get; }
