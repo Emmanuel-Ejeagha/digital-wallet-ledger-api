@@ -73,6 +73,10 @@ namespace DigitalWallet.Domain.Entities
 
         private void ValidateDoubleEntry(List<LedgerEntry> entries)
         {
+            var currency = entries.First().Amount.Currency;
+            if (entries.Any(e => e.Amount.Currency != currency))
+                throw new InvalidTransactionException("All entries must have the same currency");
+
             decimal totalDebits = 0;
             decimal totalCredits = 0;
 
