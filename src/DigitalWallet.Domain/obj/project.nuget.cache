@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5qbWXtTx0pA=",
+  "dgSpecHash": "/ktnd8EPzLs=",
   "success": true,
   "projectFilePath": "/home/emmytek/Desktop/digital-wallet-ledger-api/src/DigitalWallet.Domain/DigitalWallet.Domain.csproj",
-  "expectedPackageFiles": [
-    "/home/emmytek/.nuget/packages/microsoft.codeanalysis.netanalyzers/8.0.0/microsoft.codeanalysis.netanalyzers.8.0.0.nupkg.sha512",
-    "/home/emmytek/.nuget/packages/microsoft.netcore.app.ref/8.0.22/microsoft.netcore.app.ref.8.0.22.nupkg.sha512",
-    "/home/emmytek/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.22/microsoft.aspnetcore.app.ref.8.0.22.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }

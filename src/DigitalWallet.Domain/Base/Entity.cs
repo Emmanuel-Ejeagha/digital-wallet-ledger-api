@@ -1,8 +1,6 @@
-
-namespace DigitalWallet.Domain.Common;
-
+namespace DigitalWallet.Domain.Base;
 /// <summary>
-/// Base class for all domain entities. Equality is based on the entity's ID
+/// Base class for all domain entities. Entities have an identity (id) and are compared by identity
 /// </summary>
 public abstract class Entity
 {
@@ -34,7 +32,14 @@ public abstract class Entity
 
     public override int GetHashCode() => Id.GetHashCode();
 
-    public static bool operator ==(Entity? left, Entity? right) => Equals(left, right);
-    public static bool operator !=(Entity? left, Entity? right) => !Equals(left, right);
-    
+    public static bool operator ==(Entity? left, Entity? right)
+    {
+        if (left is null && right is null)
+            return true;
+        if (left is null || right is null)
+            return false;
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(Entity? left, Entity? right) => !(left == right);
 }
