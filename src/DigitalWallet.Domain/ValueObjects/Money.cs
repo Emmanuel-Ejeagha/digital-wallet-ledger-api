@@ -35,6 +35,8 @@ public sealed class Money : ValueObject
     /// Creates a Money instance from the smallest unit of the currency (e.g., cents).
     /// </summary>
     /// <param name="amountInSmallestUnit">e.g., 100 for $1.00</param>
+    ///     /// <param name="currency">The currency of the money.</param>
+
     public static Money FromSmallestUnit(long amountInSmallestUnit, Currency currency)
     {
         if (currency == null) throw new ArgumentNullException(nameof(currency));
