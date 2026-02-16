@@ -1,5 +1,6 @@
 using DigitalWallet.Domain.Base;
 using DigitalWallet.Domain.Enums;
+using DigitalWallet.Domain.Events;
 using DigitalWallet.Domain.Exceptions;
 using DigitalWallet.Domain.ValueObjects;
 
