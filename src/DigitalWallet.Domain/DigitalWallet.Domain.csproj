@@ -8,6 +8,13 @@
 
   <ItemGroup>
     <Folder Include="Base/" />
+    <Folder Include="DomainServices/" />
+    <Folder Include="Entities/" />
+    <Folder Include="Enums/" />
+    <Folder Include="Events/" />
+    <Folder Include="Exceptions/" />
+    <Folder Include="TransferDomainServices/" />
+    <Folder Include="ValueObjects/" />
   </ItemGroup>
 
 </Project>
