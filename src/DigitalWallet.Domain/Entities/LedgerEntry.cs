@@ -12,11 +12,11 @@ public class LedgerEntry : Entity
     public Guid TransactionId { get; private set; }
     public EntryType Type { get; private set; }
     public Money Amount { get; private set; }
-    public decimal BalanceAfter { get; private set; } // Snapshot of account balance after entry (for audit)
+    public decimal BalanceAfter { get; set; } // Snapshot of account balance after entry (for audit)
     public DateTime CreatedAt { get; private set; }
     public string Description { get; private set; }
 
-    public LedgerEntry() { } // EF Core
+    private LedgerEntry() { } // EF Core
 
     public LedgerEntry(Guid accountId, Guid transactionId, EntryType type, Money amount, decimal balanceAfter, string description) : base()
     {
