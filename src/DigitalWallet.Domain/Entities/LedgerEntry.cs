@@ -14,7 +14,7 @@ public class LedgerEntry : Entity
     public Money Amount { get; private set; }
     public decimal BalanceAfter { get; set; } // Snapshot of account balance after entry (for audit)
     public DateTime CreatedAt { get; private set; }
-    public string Description { get; private set; }
+    public string? Description { get; private set; }
 
     private LedgerEntry() { } // EF Core
 

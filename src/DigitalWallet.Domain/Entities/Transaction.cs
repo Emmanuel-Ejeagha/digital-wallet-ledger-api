@@ -14,8 +14,8 @@ public class Transaction : AggregateRoot
     private readonly List<LedgerEntry> _entries = new();
 
     public string Reference { get; private set; } // Unique transaction reference (e.g., generated)
-    public string Description { get; private set; }
-    public IdempotencyKey IdempotencyKey { get; private set; }
+    public string? Description { get; private set; }
+    public IdempotencyKey IdempotencyKey { get; private set; } 
     public TransactionStatus Status { get; private set; }
     public DateTime? CompletedAt { get; private set; }
 
