@@ -1,5 +1,6 @@
 using DigitalWallet.Domain.Base;
 using DigitalWallet.Domain.Enums;
+using DigitalWallet.Domain.Events;
 using DigitalWallet.Domain.Exceptions;
 using DigitalWallet.Domain.ValueObjects;
 
@@ -12,7 +13,7 @@ public class Account : AggregateRoot
     public Guid UserId { get; private set; }
     public AccountType Type { get; private set; }
     public Currency Currency { get; private set; }
-    public Money Balance { get; private set; }
+    public decimal Balance { get; private set; }
     public string Name { get; private set; }
     public bool IsActive { get; private set; }
     public byte[] ConcurrencyToken { get; private set; }
