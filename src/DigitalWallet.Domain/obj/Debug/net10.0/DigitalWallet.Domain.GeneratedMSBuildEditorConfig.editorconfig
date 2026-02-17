@@ -13,5 +13,5 @@ build_property.RootNamespace = DigitalWallet.Domain
 build_property.ProjectDir = /home/emmytek/Desktop/digital-wallet-ledger-api/src/DigitalWallet.Domain/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
-build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 

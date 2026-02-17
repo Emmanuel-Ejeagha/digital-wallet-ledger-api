@@ -13,6 +13,7 @@
         "packagesPath": "/home/emmytek/.nuget/packages/",
         "outputPath": "/home/emmytek/Desktop/digital-wallet-ledger-api/src/DigitalWallet.Domain/obj/",
         "projectStyle": "PackageReference",
+        "centralPackageVersionsManagementEnabled": true,
         "configFilePaths": [
           "/home/emmytek/.nuget/NuGet/NuGet.Config"
         ],
@@ -44,6 +45,17 @@
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
+          "centralPackageVersions": {
+            "AutoMapper": "12.0.1",
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": "12.0.1",
+            "FluentValidation": "11.9.0",
+            "FluentValidation.DependencyInjectionExtensions": "11.9.0",
+            "MediatR": "12.2.0",
+            "Microsoft.CodeAnalysis.NetAnalyzers": "8.0.0",
+            "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0",
+            "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
+            "Polly": "8.3.0"
+          },
           "imports": [
             "net461",
             "net462",
