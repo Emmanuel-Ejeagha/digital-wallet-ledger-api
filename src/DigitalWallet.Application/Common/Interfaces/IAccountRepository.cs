@@ -1,0 +1,13 @@
+using System;
+using DigitalWallet.Domain.Entities;
+
+namespace DigitalWallet.Application.Common.Interfaces;
+/// <summary>Repository for account aggregate.</summary>
+public interface IAccountRepository
+{
+    Task<Account?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<IEnumerable<Account>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
+    void Add(Account account);
+    void Update(Account account);
+    void Remove(Account account);
+}
