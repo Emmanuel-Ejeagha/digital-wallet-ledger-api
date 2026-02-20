@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using DigitalWallet.Domain.Base;
 using DigitalWallet.Domain.Enums;
 using DigitalWallet.Domain.Events;
@@ -17,6 +18,15 @@ public class Account : AggregateRoot
     public string Name { get; private set; }
     public bool IsActive { get; private set; }
     public byte[] ConcurrencyToken { get; private set; }
+
+    private string _currencyCodeDummy;
+
+    [NotMapped]
+    public string CurrencyCode
+    {
+        get => Currency.Code;
+        private set => _currencyCodeDummy = value;
+    }
 
     private Account() { } // EF Core
 
