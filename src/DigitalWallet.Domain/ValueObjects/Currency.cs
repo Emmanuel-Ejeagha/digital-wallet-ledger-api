@@ -6,10 +6,12 @@ namespace DigitalWallet.Domain.ValueObjects;
 /// </summary>
 public sealed class Currency : ValueObject
 {
-    public string Code { get; } = string.Empty;
-    public int DecimalPlaces { get; }
-    public string Symbol { get; } = string.Empty;
-    public string Name { get; } = string.Empty;
+    public string Code { get; private set; } = string.Empty;
+    public int DecimalPlaces { get; private set; }
+    public string Symbol { get; private set; } = string.Empty;
+    public string Name { get; private set; } = string.Empty;
+
+    private Currency() { } // Ef Core
 
     // Static properties for common currencies
     public static Currency NGN => new("NGN", 2, "₦", "Naira");

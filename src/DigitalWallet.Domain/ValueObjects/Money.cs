@@ -11,6 +11,8 @@ public sealed class Money : ValueObject
     public decimal Amount { get; }
     public Currency Currency { get; }
 
+    private Money() { }
+
     /// <summary>
     /// Creates a Money instance. Validates that the amount does not exceed the currency's decimal places.
     /// </summary>
