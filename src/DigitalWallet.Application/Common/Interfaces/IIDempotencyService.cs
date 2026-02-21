@@ -5,23 +5,32 @@ namespace DigitalWallet.Application.Common.Interfaces;
 public interface IIdempotencyService
 {
     /// <summary>
-    /// Attempts to atomically register the specified idempotency key as "in progress".
-    /// Returns true if the key was successfully reserved and processing may proceed,
-    /// or false if the key already exists or is currently being processed.
-    /// </summary>
-    Task<bool> TryBeginAsync(string key, TimeSpan ttl, CancellationToken cancellationToken = default);
-    /// <summary>
-    /// Checks if a key has already been processed and returns the cached response if any.
-    /// </summary>
-    Task<TResponse?> GetCachedResponseAsync<TResponse>(string key, CancellationToken cancellationToken = default);
+        /// Attempts to begin processing a request with the given key.
+        /// Returns true if this instance should process the request (i.e., it acquired the lock).
+        /// </summary>
+        /// <param name="key">Idempotency key.</param>
+        /// <param name="ttl">Time-to-live for the request lock.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>True if the caller should process the request; false if already processed or in progress.</returns>
+        Task<bool> TryBeginAsync(string key, TimeSpan ttl, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// Marks a key as processed and caches the response.
-    /// </summary>
-    Task CacheResponseAsync<TResponse>(string key, TResponse response, TimeSpan ttl, CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Sets the request hash for a given key to detect key reuse with different payloads.
+        /// </summary>
+        Task SetRequestHashAsync(string key, string requestHash, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// Checks if a key exists (already processed).
-    /// </summary>
-    Task<bool> ExistsAsync(string key, CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Retrieves a cached response for the given key, if it exists and has not expired.
+        /// </summary>
+        Task<TResponse?> GetCachedResponseAsync<TResponse>(string key, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Caches a response for the given key with a TTL.
+        /// </summary>
+        Task CacheResponseAsync<TResponse>(string key, TResponse response, TimeSpan? ttl = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Checks if a key exists and has been processed (and not expired).
+        /// </summary>
+        Task<bool> ExistsAsync(string key, CancellationToken cancellationToken = default);
 }

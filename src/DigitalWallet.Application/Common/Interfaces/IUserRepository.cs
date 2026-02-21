@@ -17,8 +17,7 @@ public interface IUserRepository
 
     Task<bool> ExistsByEmailAsync(string email, CancellationToken cancellationToken = default);
     Task<bool> ExistsByAuth0IdAsync(string auth0UserId, CancellationToken cancellationToken = default);
-
-
+    Task<User?> GetByAccountIdAsync(Guid accountId, CancellationToken cancellationToken = default);
     void Add(User user);
     void Update(User user);
 }
