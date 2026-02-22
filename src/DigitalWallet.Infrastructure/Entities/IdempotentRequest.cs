@@ -1,44 +1,40 @@
-namespace DigitalWallet.Infrastructure.Entities;
-
-/// <summary>
-/// Represents a processed idempotent request.
-/// Stores the response of a previously executed command
-/// to ensure safe retries and prevent duplicate processing.
-/// </summary>
-public class IdempotentRequest
+namespace DigitalWallet.Infrastructure.Entities
 {
     /// <summary>
-    /// Unique identifier for the idempotent record (UUID for PostgreSQL).
+    /// Represents a processed or in-progress idempotent request.
+    /// Used by IdempotencyService to ensure exactly-once execution.
     /// </summary>
-    public Guid Id { get; set; }
-
-    /// <summary>
-    /// Unique idempotency key provided by the client.
-    /// Must be unique to prevent duplicate command execution.
-    /// </summary>
-    public string Key { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Serialized JSON response returned for the original request.
-    /// Used to replay the exact same response on retries.
-    /// </summary>
-    public string Response { get; set; } = string.Empty;
-
-    /// <summary>
-    /// UTC timestamp when the request was first processed.
-    /// </summary>
-    public DateTime CreatedAt { get; set; }
-
-    /// <summary>
-    /// UTC timestamp when this idempotency record expires and can be cleaned up.
-    /// </summary>
-    public DateTime ExpiredAt { get; set; }
-    /// <summary>
-    /// Helps avoid race conditions
-    /// </summary>
-    public bool IsProcessed { get; set; }
-    /// <summary>
-    /// Prevents key reuse withdifferent payloads (advance, good)
-    /// </summary>
-    public string RequestHash { get; set; } = string.Empty;
+    public class IdempotentRequest
+    {
+        public Guid Id { get; set; }
+        
+        /// <summary>
+        /// Unique idempotency key (scoped per user).
+        /// </summary>
+        public string Key { get; set; } = string.Empty;
+        
+        /// <summary>
+        /// Hash of the request payload to detect key reuse with different data.
+        /// </summary>
+        public string RequestHash { get; set; } = string.Empty;
+        
+        /// <summary>
+        /// JSON‑serialized response, once the request is processed.
+        /// </summary>
+        public string Response { get; set; } = string.Empty;
+        
+        /// <summary>
+        /// Indicates whether processing has completed successfully.
+        /// If false, the request is still being processed (locked).
+        /// </summary>
+        public bool IsProcessed { get; set; }
+        
+        public DateTime CreatedAt { get; set; }
+        public DateTime ExpiresAt { get; set; }
+        
+        /// <summary>
+        /// Concurrency token to prevent race conditions (row version).
+        /// </summary>
+        public byte[] ConcurrencyToken { get; set; } = Array.Empty<byte>();
+    }
 }
