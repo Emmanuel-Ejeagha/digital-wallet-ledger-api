@@ -31,8 +31,13 @@ public class IdempotentRequestConfiguration : IEntityTypeConfiguration<Idempoten
         builder.Property(r => r.CreatedAt)
             .IsRequired();
 
-        builder.Property(e => e.ExpiredAt)
+        builder.Property(e => e.ExpiresAt)
             .IsRequired();
+        
+        // Concurrency token for optimistic concurrency
+            builder.Property(r => r.ConcurrencyToken)
+                .IsRowVersion()
+                .HasColumnName("xmin");
 
         // Indexes
         // Unique constraint - CRITICAL for idempotency safety
@@ -45,7 +50,7 @@ public class IdempotentRequestConfiguration : IEntityTypeConfiguration<Idempoten
             .HasDatabaseName("IX_IdempotentRequests_Key_RequestHash");
 
         // Expiry cleanup performance
-        builder.HasIndex(r => r.ExpiredAt)
+        builder.HasIndex(r => r.ExpiresAt)
             .HasDatabaseName("IX_IdempotentRequests_ExpiredAt");
 
     }

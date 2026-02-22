@@ -32,10 +32,13 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
         builder.OwnsOne(t => t.IdempotencyKey, key =>
         {
             key.Property(k => k.Value)
-                .HasColumnName("IdempotencyKey")
+                .HasColumnName("IdempotencyKeyValue")
                 .IsRequired()
                 .HasMaxLength(100);
 
+            key.HasIndex(k => k.Value)
+                .IsUnique()
+                .HasDatabaseName("IX_Transactions_Idempotency");
             key.WithOwner();
         });
 
@@ -47,11 +50,8 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
 
         // Indexes
         builder.HasIndex(t => t.Reference)
-            .IsUnique()
-            .HasDatabaseName("IX_Transactions_Reference");
+        .IsUnique()
+        .HasDatabaseName("IX_Transactions_Reference");
 
-        builder.HasIndex(t => t.IdempotencyKey)
-            .IsUnique()
-            .HasDatabaseName("IX_Transactions_Idempotency");
     }
 }
