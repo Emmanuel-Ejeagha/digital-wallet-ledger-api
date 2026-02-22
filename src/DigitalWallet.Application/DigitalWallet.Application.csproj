@@ -26,7 +26,7 @@
     <Folder Include="DTOs/" />
     <Folder Include="Features/Accounts/Queries/" />
     <Folder Include="Features/Authentication/Commands/" />
-    <Folder Include="Features/Transaction/Commands/" />
+    <Folder Include="Features/Transaction/Notifications/" />
     <Folder Include="Features/Transaction/Queries/" />
     <Folder Include="Features/Users/Commands/" />
   </ItemGroup>
