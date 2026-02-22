@@ -31,10 +31,12 @@ public class TransferCommandHandler : IRequestHandler<TransferCommand, Transacti
 {
     private readonly IAccountRepository _accountRepository;
     private readonly ITransactionRepository _transactionRepository;
+    private readonly IUserRepository _userRepository;
     private readonly ICurrentUserService _currentUserService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly TransferDomainService _transferDomainService;
+    private readonly IMediator _mediator;
     private readonly ILogger<TransferCommandHandler> _logger;
 
     /// <summary>
@@ -50,18 +52,22 @@ public class TransferCommandHandler : IRequestHandler<TransferCommand, Transacti
     public TransferCommandHandler(
         IAccountRepository accountRepository,
         ITransactionRepository transactionRepository,
+        IUserRepository userRepository,
         ICurrentUserService currentUserService,
         IUnitOfWork unitOfWork,
         IMapper mapper,
         TransferDomainService transferDomainService,
+        IMediator mediator,
         ILogger<TransferCommandHandler> logger)
     {
         _accountRepository = accountRepository;
         _transactionRepository = transactionRepository;
+        _userRepository = userRepository;
         _currentUserService = currentUserService;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _transferDomainService = transferDomainService;
+        _mediator = mediator;
         _logger = logger;
     }
 
@@ -114,11 +120,15 @@ public class TransferCommandHandler : IRequestHandler<TransferCommand, Transacti
         var fromAccount = await _accountRepository.GetByIdAsync(request.FromAccountId, cancellationToken);
         var toAccount = await _accountRepository.GetByIdAsync(request.ToAccountId, cancellationToken);
 
+
         if (fromAccount == null)
             throw new NotFoundException(nameof(Account), request.FromAccountId);
 
         if (toAccount == null)
             throw new NotFoundException(nameof(Account), request.ToAccountId);
+
+        // Ensure user owns the source account (or is admin)
+        var user = await _userRepository.GetByAuth0IdAsync(_currentUserService.UserId!, cancellationToken);
 
         if (fromAccount.UserId != currentUserGuid && !_currentUserService.IsInRole("Admin"))
             throw new ForbiddenAccessException();
@@ -162,6 +172,13 @@ public class TransferCommandHandler : IRequestHandler<TransferCommand, Transacti
             _logger.LogInformation(
                 "Transfer completed. TransactionId={TransactionId}",
                 transaction.Id);
+
+            // Publish domain events after successful commit
+            foreach (var domainEvent in transaction.DomainEvents)
+            {
+                await _mediator.Publish(domainEvent, cancellationToken);
+            }
+            transaction.ClearDomainEvents();
 
             return _mapper.Map<TransactionDto>(transaction);
         }
