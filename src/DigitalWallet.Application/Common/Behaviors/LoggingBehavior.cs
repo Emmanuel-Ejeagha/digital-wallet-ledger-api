@@ -1,9 +1,3 @@
-using System;
-using System.Diagnostics;
-using DigitalWallet.Application.Common.Interfaces;
-using MediatR;
-using Microsoft.Extensions.Logging;
-
 namespace DigitalWallet.Application.Common.Behaviors;
 /// <summary>Logs request execution, duration, and failures.</summary>
 public class LoggingBehavior<TRequest, TResponse> 

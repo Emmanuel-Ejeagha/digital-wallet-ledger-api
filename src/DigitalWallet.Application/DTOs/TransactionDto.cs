@@ -1,7 +1,3 @@
-using System;
-using DigitalWallet.Application.Common.Mappings;
-using DigitalWallet.Domain.Entities;
-
 namespace DigitalWallet.Application.DTOs;
 /// <summary>
 /// Data transfer object for Transaction aggregate.

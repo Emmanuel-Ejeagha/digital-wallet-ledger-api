@@ -1,5 +1,3 @@
-using DigitalWallet.Domain.Entities;
-
 namespace DigitalWallet.Application.Common.Interfaces;
 /// <summary>
 /// Repository for User entity.

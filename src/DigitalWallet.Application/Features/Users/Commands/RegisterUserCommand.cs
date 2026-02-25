@@ -1,12 +1,3 @@
-using System;
-using AutoMapper;
-using DigitalWallet.Application.Common.Interfaces;
-using DigitalWallet.Application.DTOs;
-using DigitalWallet.Domain.Entities;
-using DigitalWallet.Domain.Exceptions;
-using MediatR;
-using Microsoft.Extensions.Logging;
-
 namespace DigitalWallet.Application.Features.Users.Commands;
 /// <summary>
 /// Command to register a new user (after Auth0 signup

@@ -1,6 +1,3 @@
-using System;
-using FluentValidation;
-
 namespace DigitalWallet.Application.Features.Authentication.Commands;
 /// <summary>Validates LoginCommand</summary>
 public class LoginCommandValidator : AbstractValidator<LoginCommand>

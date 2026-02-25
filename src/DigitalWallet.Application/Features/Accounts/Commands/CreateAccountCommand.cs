@@ -1,15 +1,3 @@
-using AutoMapper;
-using DigitalWallet.Application.Common.Behaviors;
-using DigitalWallet.Application.Common.Exceptions;
-using DigitalWallet.Application.Common.Interfaces;
-using DigitalWallet.Application.DTOs;
-using DigitalWallet.Domain.Entities;
-using DigitalWallet.Domain.Enums;
-using DigitalWallet.Domain.Exceptions;
-using DigitalWallet.Domain.ValueObjects;
-using MediatR;
-using Microsoft.Extensions.Logging;
-
 namespace DigitalWallet.Application.Features.Accounts.Commands;
 /// <summary>
 /// Command to create a new wallet account for the current user

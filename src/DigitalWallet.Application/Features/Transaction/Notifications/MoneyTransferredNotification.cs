@@ -1,7 +1,3 @@
-using System;
-using DigitalWallet.Domain.Events;
-using MediatR;
-
 namespace DigitalWallet.Application.Features.Transaction.Notifications;
 /// <summary>
 /// MediatR notification that wraps the domain event

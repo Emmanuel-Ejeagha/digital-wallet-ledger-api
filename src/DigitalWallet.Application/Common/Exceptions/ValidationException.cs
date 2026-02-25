@@ -1,7 +1,3 @@
-using System;
-using System.Collections.ObjectModel;
-using FluentValidation.Results;
-
 namespace DigitalWallet.Application.Common.Exceptions;
 
 public class ValidationException : ApplicationException

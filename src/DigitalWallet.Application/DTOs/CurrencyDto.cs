@@ -1,7 +1,3 @@
-using System;
-using DigitalWallet.Application.Common.Mappings;
-using DigitalWallet.Domain.ValueObjects;
-
 namespace DigitalWallet.Application.DTOs;
 /// <summary>Data tansfer object for Currency value object.</summary>
 public class CurrencyDto : IMapFrom<Currency>

@@ -1,11 +1,3 @@
-using System;
-using AutoMapper;
-using DigitalWallet.Application.Common.Exceptions;
-using DigitalWallet.Application.Common.Interfaces;
-using DigitalWallet.Application.DTOs;
-using DigitalWallet.Domain.Entities;
-using MediatR;
-
 namespace DigitalWallet.Application.Features.Transaction.Queries;
 /// <summary>
 /// Query to retrieve paginated transaction history for an account,

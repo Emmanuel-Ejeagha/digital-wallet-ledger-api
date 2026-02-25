@@ -1,16 +1,4 @@
-using AutoMapper;
-using DigitalWallet.Application.Common.Behaviors;
-using DigitalWallet.Application.Common.Exceptions;
 using ValidationException = DigitalWallet.Application.Common.Exceptions.ValidationException;
-using DigitalWallet.Application.Common.Interfaces;
-using DigitalWallet.Application.DTOs;
-using DigitalWallet.Domain.Entities;
-using DigitalWallet.Domain.TransferDomainServices;
-using DigitalWallet.Domain.ValueObjects;
-using MediatR;
-using Microsoft.Extensions.Logging;
-using FluentValidation.Results;
-
 namespace DigitalWallet.Application.Features.Transaction.Commands;
 
 /// <summary>
@@ -150,7 +138,7 @@ public class TransferCommandHandler : IRequestHandler<TransferCommand, Transacti
             fromAccount.Id,
             toAccount.Id);
 
-        await _unitOfWork.BeginTransactionAsync(cancellationToken);
+        await _unitOfWork.BeginTransactionAsync(System.Data.IsolationLevel.Serializable,cancellationToken);
 
         try
         {
@@ -179,6 +167,8 @@ public class TransferCommandHandler : IRequestHandler<TransferCommand, Transacti
                 await _mediator.Publish(domainEvent, cancellationToken);
             }
             transaction.ClearDomainEvents();
+
+            Console.WriteLine(_unitOfWork.GetType().FullName);
 
             return _mapper.Map<TransactionDto>(transaction);
         }

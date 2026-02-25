@@ -1,6 +1,3 @@
-using System;
-using FluentValidation;
-
 namespace DigitalWallet.Application.Features.Transaction.Commands;
 /// <summary>Validates TransferCommand</summary>
 public class TransferCommandValidator : AbstractValidator<TransferCommand>

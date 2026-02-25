@@ -1,11 +1,3 @@
-using System;
-using AutoMapper;
-using DigitalWallet.Application.Common.Exceptions;
-using DigitalWallet.Application.Common.Interfaces;
-using DigitalWallet.Application.DTOs;
-using DigitalWallet.Domain.Entities;
-using MediatR;
-
 namespace DigitalWallet.Application.Features.Accounts.Queries;
 /// <summary>
 /// Query to get the balance of a specific

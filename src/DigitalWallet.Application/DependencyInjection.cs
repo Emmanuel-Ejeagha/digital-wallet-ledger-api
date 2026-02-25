@@ -1,8 +1,3 @@
-using System.Reflection;
-using DigitalWallet.Application.Common.Behaviors;
-using DigitalWallet.Domain.TransferDomainServices;
-using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DigitalWallet.Application;

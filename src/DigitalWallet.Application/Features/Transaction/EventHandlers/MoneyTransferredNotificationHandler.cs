@@ -1,11 +1,3 @@
-using System;
-using DigitalWallet.Application.Common.Interfaces;
-using DigitalWallet.Application.Features.Transaction.Notifications;
-using DigitalWallet.Domain.Enums;
-using DigitalWallet.Domain.Events;
-using MediatR;
-using Microsoft.Extensions.Logging;
-
 namespace DigitalWallet.Application.Features.Transaction.EventHandlers;
 /// <summary>
 /// Purpose: Handles MoneyTransferredEvent and sends email notifications to both parties.

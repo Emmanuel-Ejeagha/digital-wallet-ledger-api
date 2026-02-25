@@ -1,5 +1,3 @@
-using System;
-
 namespace DigitalWallet.Application.Common.Exceptions;
 
 public class UnauthorizedException : ApplicationException

@@ -1,6 +1,3 @@
-using System;
-using FluentValidation;
-
 namespace DigitalWallet.Application.Features.Accounts.Commands;
 
 public class CreateAccountCommandValidator : AbstractValidator<CreateAccountCommand>

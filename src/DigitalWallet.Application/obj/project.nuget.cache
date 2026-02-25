@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "dgSpecHash": "OzVe5RqULv0=",
+  "success": true,
+  "projectFilePath": "/home/emmytek/Desktop/digital-wallet-ledger-api/src/DigitalWallet.Application/DigitalWallet.Application.csproj",
+  "expectedPackageFiles": [
+    "/home/emmytek/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
+    "/home/emmytek/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
+    "/home/emmytek/.nuget/packages/fluentvalidation/11.9.0/fluentvalidation.11.9.0.nupkg.sha512",
+    "/home/emmytek/.nuget/packages/fluentvalidation.dependencyinjectionextensions/11.9.0/fluentvalidation.dependencyinjectionextensions.11.9.0.nupkg.sha512",
+    "/home/emmytek/.nuget/packages/mediatr/12.2.0/mediatr.12.2.0.nupkg.sha512",
+    "/home/emmytek/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
+    "/home/emmytek/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/10.0.0/microsoft.extensions.dependencyinjection.abstractions.10.0.0.nupkg.sha512",
+    "/home/emmytek/.nuget/packages/microsoft.extensions.logging.abstractions/10.0.0/microsoft.extensions.logging.abstractions.10.0.0.nupkg.sha512",
+    "/home/emmytek/.nuget/packages/microsoft.extensions.options/6.0.0/microsoft.extensions.options.6.0.0.nupkg.sha512",
+    "/home/emmytek/.nuget/packages/microsoft.extensions.primitives/6.0.0/microsoft.extensions.primitives.6.0.0.nupkg.sha512",
+    "/home/emmytek/.nuget/packages/polly/8.3.0/polly.8.3.0.nupkg.sha512",
+    "/home/emmytek/.nuget/packages/polly.core/8.3.0/polly.core.8.3.0.nupkg.sha512"
+  ],
+  "logs": []
+}

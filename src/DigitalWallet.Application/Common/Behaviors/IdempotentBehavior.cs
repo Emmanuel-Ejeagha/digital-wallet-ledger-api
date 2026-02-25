@@ -1,7 +1,3 @@
-using System.Reflection;
-using DigitalWallet.Application.Common.Interfaces;
-using MediatR;
-
 namespace DigitalWallet.Application.Common.Behaviors;
 /// <summary>
 /// Attribute used to mark a MediatR request as idempotent.

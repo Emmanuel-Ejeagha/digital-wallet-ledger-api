@@ -1,5 +1,3 @@
-using AutoMapper;
-
 namespace DigitalWallet.Application.Common.Mappings;
 /// <summary>
 /// Interface for entities/DTOs to define AutoMapper mapping.

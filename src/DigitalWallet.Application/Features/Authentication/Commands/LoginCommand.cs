@@ -1,5 +1,3 @@
-using MediatR;
-
 namespace DigitalWallet.Application.Features.Authentication.Commands;
 /// <summary>
 /// Command to authenticate a user via Auth0. 

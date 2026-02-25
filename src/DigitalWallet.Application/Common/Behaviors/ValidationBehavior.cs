@@ -1,5 +1,3 @@
-using FluentValidation;
-using MediatR;
 using ValidationException = DigitalWallet.Application.Common.Exceptions.ValidationException;
 
 namespace DigitalWallet.Application.Common.Behaviors;
