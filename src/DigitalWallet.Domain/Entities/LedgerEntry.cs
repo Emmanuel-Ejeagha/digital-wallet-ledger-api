@@ -1,7 +1,3 @@
-using DigitalWallet.Domain.Base;
-using DigitalWallet.Domain.Enums;
-using DigitalWallet.Domain.ValueObjects;
-
 namespace DigitalWallet.Domain.Entities;
 /// <summary>
 /// Represents one side of a double-entry transaction. Once created, it cannot be modified

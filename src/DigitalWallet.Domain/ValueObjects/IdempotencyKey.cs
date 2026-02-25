@@ -1,5 +1,3 @@
-using DigitalWallet.Domain.Base;
-
 namespace DigitalWallet.Domain.ValueObjects;
 /// <summary>
 /// Idempotency key value object. Used to ensure that a request is processed only once

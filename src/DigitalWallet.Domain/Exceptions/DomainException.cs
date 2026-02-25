@@ -1,5 +1,3 @@
-using System;
-
 namespace DigitalWallet.Domain.Exceptions;
 /// <summary>
 /// Thrown when a domain invariant is violated.

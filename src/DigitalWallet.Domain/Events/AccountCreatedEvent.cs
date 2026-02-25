@@ -1,7 +1,3 @@
-using System;
-using DigitalWallet.Domain.Base;
-using DigitalWallet.Domain.Entities;
-
 namespace DigitalWallet.Domain.Events;
 
 public class AccountCreatedEvent : IDomainEvent

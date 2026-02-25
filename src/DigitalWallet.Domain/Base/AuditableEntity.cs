@@ -1,5 +1,3 @@
-using System;
-
 namespace DigitalWallet.Domain.Base;
 /// <summary>
 /// Base class for entitties that require audit information (created/updated timestamps and users)

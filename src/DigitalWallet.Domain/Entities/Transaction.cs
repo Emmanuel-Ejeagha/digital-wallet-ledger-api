@@ -1,9 +1,3 @@
-using DigitalWallet.Domain.Base;
-using DigitalWallet.Domain.Enums;
-using DigitalWallet.Domain.Events;
-using DigitalWallet.Domain.Exceptions;
-using DigitalWallet.Domain.ValueObjects;
-
 namespace DigitalWallet.Domain.Entities;
 /// <summary>
 /// Represents a financial transaction (e.g., transfer, deposit, withdrawal). Contains two or more ledger entries.

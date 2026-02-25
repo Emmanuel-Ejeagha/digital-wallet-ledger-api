@@ -1,5 +1,3 @@
-using DigitalWallet.Domain.Exceptions;
-
 namespace DigitalWallet.Domain.ValueObjects;
 /// <summary>
 /// Registry of all supported currencies. Useful for validation and enumeration.

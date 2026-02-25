@@ -1,6 +1,3 @@
-using DigitalWallet.Domain.Base;
-using DigitalWallet.Domain.Exceptions;
-
 namespace DigitalWallet.Domain.ValueObjects;
 /// <summary>
 /// Money value object. Encapsulates amount and currency. Immutable. 

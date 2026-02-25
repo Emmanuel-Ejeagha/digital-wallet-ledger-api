@@ -1,10 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using DigitalWallet.Domain.Base;
-using DigitalWallet.Domain.Enums;
-using DigitalWallet.Domain.Events;
-using DigitalWallet.Domain.Exceptions;
-using DigitalWallet.Domain.ValueObjects;
-
 namespace DigitalWallet.Domain.Entities;
 /// <summary>
 /// Account aggregate root. Stores current balance (derived from ledger entries, with concurrency control)
