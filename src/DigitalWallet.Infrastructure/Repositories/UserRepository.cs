@@ -1,8 +1,3 @@
-using DigitalWallet.Application.Common.Interfaces;
-using DigitalWallet.Domain.Entities;
-using DigitalWallet.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
-
 namespace DigitalWallet.Infrastructure.Repositories;
 /// <summary>
 /// Repository for user entity

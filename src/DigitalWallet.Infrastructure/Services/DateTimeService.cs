@@ -1,5 +1,3 @@
-using DigitalWallet.Application.Common.Interfaces;
-
 namespace DigitalWallet.Infrastructure.Services;
 /// <summary>
 /// Provides current date and time.

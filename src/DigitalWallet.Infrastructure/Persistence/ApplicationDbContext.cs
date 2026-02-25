@@ -1,8 +1,3 @@
-using DigitalWallet.Domain.Entities;
-using DigitalWallet.Infrastructure.Entities;
-using DigitalWallet.Infrastructure.Persistence.Configurations;
-using Microsoft.EntityFrameworkCore;
-
 namespace DigitalWallet.Infrastructure.Persistence;
 /// <summary>
 /// Entity Framework Core database context for the ledger system.

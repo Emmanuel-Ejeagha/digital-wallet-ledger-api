@@ -1,10 +1,3 @@
-using System;
-using System.Net;
-using System.Net.Mail;
-using DigitalWallet.Application.Common.Interfaces;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-
 namespace DigitalWallet.Infrastructure.Services;
 
 

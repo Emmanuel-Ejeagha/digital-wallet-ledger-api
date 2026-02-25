@@ -1,11 +1,3 @@
-using DigitalWallet.Application.Common.Interfaces;
-using DigitalWallet.Infrastructure.Persistence;
-using DigitalWallet.Infrastructure.Repositories;
-using DigitalWallet.Infrastructure.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
 namespace DigitalWallet.Infrastructure;
 /// <summary>
 /// Extension method for registering infrastructure services

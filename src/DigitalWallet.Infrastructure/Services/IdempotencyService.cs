@@ -1,9 +1,3 @@
-using System.Text.Json;
-using DigitalWallet.Application.Common.Interfaces;
-using DigitalWallet.Infrastructure.Entities;
-using DigitalWallet.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
-
 namespace DigitalWallet.Infrastructure.Services;
 /// <summary>
 /// Idempotency service using a database table. Responses are stored as JSON with a TTL(Time to live)

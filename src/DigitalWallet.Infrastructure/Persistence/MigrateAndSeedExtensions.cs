@@ -1,8 +1,3 @@
-// File: src/DigitalWallet.Infrastructure/Persistence/MigrateAndSeedExtensions.cs
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
 namespace DigitalWallet.Infrastructure.Persistence
 {
     public static class MigrateAndSeedExtensions

@@ -1,8 +1,3 @@
-using System;
-using DigitalWallet.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 namespace DigitalWallet.Infrastructure.Persistence.Configurations;
 
 public class LedgerEntryConfiguration : IEntityTypeConfiguration<LedgerEntry>

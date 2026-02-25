@@ -1,8 +1,3 @@
-using System;
-using DigitalWallet.Infrastructure.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 namespace DigitalWallet.Infrastructure.Persistence.Configurations;
 
 public class IdempotentRequestConfiguration : IEntityTypeConfiguration<IdempotentRequest>

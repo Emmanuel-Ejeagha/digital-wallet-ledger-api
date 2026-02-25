@@ -1,9 +1,3 @@
-using System;
-using DigitalWallet.Application.Common.Interfaces;
-using DigitalWallet.Domain.Entities;
-using DigitalWallet.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
-
 namespace DigitalWallet.Infrastructure.Repositories;
 /// <summary>
 /// Repository for Account aggregate
@@ -28,15 +22,31 @@ public class AccountRepository : IAccountRepository
     {
         return await _context.Accounts
             .Include(a => a.Currency)
-            .Where(a => a.UserId == userId) .ToListAsync(cancellationToken);
+            .Where(a => a.UserId == userId) 
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<Account?> GetByUserAndCurrencyAsync(Guid userId, string currencyCode, CancellationToken cancellationToken = default)
     {
         return await _context.Accounts
             .Include(a => a.Currency)
-            .FirstOrDefaultAsync(a => a.UserId == userId && a.Currency.Code == currencyCode, cancellationToken);
+            .FirstOrDefaultAsync(a =>
+                a.UserId == userId &&
+                a.Currency.Code == currencyCode,
+                cancellationToken);
             
+    }
+    
+    public async Task<Account?> GetSystemReservedAccountByCurrencyAsync(
+        string currencyCode,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.Accounts
+            .Include(a => a.Currency)
+            .FirstOrDefaultAsync(a =>
+                a.Type == AccountType.SystemReserve &&
+                a.Currency.Code == currencyCode,
+                cancellationToken);
     }
 
     public void Add(Account account)
@@ -46,7 +56,7 @@ public class AccountRepository : IAccountRepository
 
     public void Update(Account account)
     {
-        _context.Entry(account).State = EntityState.Modified;
+        _context.Accounts.Update(account);
     }
     public void Remove(Account account)
     {
