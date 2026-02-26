@@ -1,4 +1,3 @@
-```markdown
 # Digital Wallet – Bank‑Grade Ledger API
 
 A production‑ready digital wallet and double‑entry ledger system built with **.NET 10**, **Clean Architecture**, **PostgreSQL**, and **Auth0**. Designed for financial accuracy, idempotency, and regulatory compliance.
