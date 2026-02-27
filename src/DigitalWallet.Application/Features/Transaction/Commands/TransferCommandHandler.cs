@@ -4,22 +4,12 @@ namespace DigitalWallet.Application.Features.Transaction.Commands;
 /// <summary>
 /// Command to transfer money between two accounts.
 /// </summary>
-[Idempotent]
-public class TransferCommand : IRequest<TransactionDto>
-{
-    public string IdempotencyKey { get; set; } = string.Empty;
-    public Guid FromAccountId { get; set; }
-    public Guid ToAccountId { get; set; }
-    public decimal Amount { get; set; }
-    public string CurrencyCode { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-}
-
 public class TransferCommandHandler : IRequestHandler<TransferCommand, TransactionDto>
 {
     private readonly IAccountRepository _accountRepository;
     private readonly ITransactionRepository _transactionRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IKycSubmissionRepository _kycRepository;
     private readonly ICurrentUserService _currentUserService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
@@ -41,6 +31,7 @@ public class TransferCommandHandler : IRequestHandler<TransferCommand, Transacti
         IAccountRepository accountRepository,
         ITransactionRepository transactionRepository,
         IUserRepository userRepository,
+        IKycSubmissionRepository kycRepository,
         ICurrentUserService currentUserService,
         IUnitOfWork unitOfWork,
         IMapper mapper,
@@ -51,6 +42,7 @@ public class TransferCommandHandler : IRequestHandler<TransferCommand, Transacti
         _accountRepository = accountRepository;
         _transactionRepository = transactionRepository;
         _userRepository = userRepository;
+        _kycRepository = kycRepository;
         _currentUserService = currentUserService;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
@@ -102,12 +94,19 @@ public class TransferCommandHandler : IRequestHandler<TransferCommand, Transacti
                     "Cannot transfer to the same account.")
             });
 
-        if (!Guid.TryParse(_currentUserService.UserId, out var currentUserGuid))
-            throw new UnauthorizedException();
+        // if (!Guid.TryParse(_currentUserService.UserId, out var currentUserGuid))
+        // throw new UnauthorizedException();
+
+        var user = await _userRepository.GetByAuth0IdAsync(_currentUserService.UserId!, cancellationToken);
+        if (user == null)
+            throw new NotFoundException(nameof(User), _currentUserService.UserId!);
+
+        var kyc = await _kycRepository.GetByUserIdAsync(user.Id, cancellationToken);
+        if (kyc?.Status != KycStatus.Approved)
+            throw new ForbiddenAccessException("KYC verification required to transfer.");
 
         var fromAccount = await _accountRepository.GetByIdAsync(request.FromAccountId, cancellationToken);
         var toAccount = await _accountRepository.GetByIdAsync(request.ToAccountId, cancellationToken);
-
 
         if (fromAccount == null)
             throw new NotFoundException(nameof(Account), request.FromAccountId);
@@ -115,10 +114,7 @@ public class TransferCommandHandler : IRequestHandler<TransferCommand, Transacti
         if (toAccount == null)
             throw new NotFoundException(nameof(Account), request.ToAccountId);
 
-        // Ensure user owns the source account (or is admin)
-        var user = await _userRepository.GetByAuth0IdAsync(_currentUserService.UserId!, cancellationToken);
-
-        if (fromAccount.UserId != currentUserGuid && !_currentUserService.IsInRole("Admin"))
+        if (fromAccount.UserId != user.Id && !_currentUserService.IsInRole("Admin"))
             throw new ForbiddenAccessException();
 
         if (fromAccount.Currency != toAccount.Currency)

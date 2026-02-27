@@ -6,7 +6,7 @@ public class DepositCommandValidator : AbstractValidator<DepositCommand>
 {
     public DepositCommandValidator()
     {
-        RuleFor(v => v.Idempotency)
+        RuleFor(v => v.IdempotencyKey)
             .NotEmpty().WithMessage("Idempotency key is required.");
 
         RuleFor(v => v.AccountId)

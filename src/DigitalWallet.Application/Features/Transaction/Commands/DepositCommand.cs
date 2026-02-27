@@ -5,7 +5,7 @@ namespace DigitalWallet.Application.Features.Transaction.Commands;
 [Idempotent]
 public class DepositCommand : IRequest<TransactionDto>
 {
-    public string Idempotency { get; set; } = string.Empty;
+    public string IdempotencyKey { get; set; } = string.Empty;
     public Guid AccountId { get; set; }
     public decimal Amount { get; set; }
     public string CurrencyCode { get; set; } = string.Empty;

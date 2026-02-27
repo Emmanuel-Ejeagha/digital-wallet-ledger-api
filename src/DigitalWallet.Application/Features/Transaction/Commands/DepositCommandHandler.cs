@@ -1,3 +1,4 @@
+
 namespace DigitalWallet.Application.Features.Transaction.Commands;
 /// <summary>
 /// Handles deposits by transferring from system reserve account to user account
@@ -11,6 +12,7 @@ public class DepositCommandHandler : IRequestHandler<DepositCommand, Transaction
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly TransferDomainService _transferDomainService;
+    private readonly IKycSubmissionRepository _kycRepository;
     private readonly IMediator _mediator;
     private readonly ILogger<DepositCommandHandler> _logger;
     public DepositCommandHandler(
@@ -18,6 +20,7 @@ public class DepositCommandHandler : IRequestHandler<DepositCommand, Transaction
         IUserRepository userRepository,
         ICurrentUserService currentUserService,
         ITransactionRepository transactionRepository,
+        IKycSubmissionRepository kycRepository,
         IUnitOfWork unitOfWork,
         IMapper mapper,
         TransferDomainService transferDomainService,
@@ -32,10 +35,11 @@ public class DepositCommandHandler : IRequestHandler<DepositCommand, Transaction
         _currentUserService = currentUserService;
         _transactionRepository = transactionRepository;
         _unitOfWork = unitOfWork;
+        _kycRepository = kycRepository;
         _mapper = mapper;
         _transferDomainService = transferDomainService;
         _mediator = mediator;
-        _logger = logger;        
+        _logger = logger;
     }
 
     public async Task<TransactionDto> Handle(DepositCommand request, CancellationToken cancellationToken)
@@ -46,55 +50,61 @@ public class DepositCommandHandler : IRequestHandler<DepositCommand, Transaction
         if (!_currentUserService.IsAuthenticated)
             throw new UnauthorizedException();
 
+        var user = await _userRepository.GetByAuth0IdAsync(_currentUserService.UserId!, cancellationToken);
+        if (user == null)
+            throw new NotFoundException(nameof(User), _currentUserService.UserId!);
+
         var userId = _currentUserService.UserId;
         if (string.IsNullOrWhiteSpace(userId))
             throw new UnauthorizedAccessException("User ID is missing from context.");
-        var user = await _userRepository.GetByAuth0IdAsync(_currentUserService.UserId!, cancellationToken);
 
-        if (user == null)
-            throw new NotFoundException("User", userId);
+        var kyc = await _kycRepository.GetByUserIdAsync(user.Id, cancellationToken);
+        if (kyc?.Status != KycStatus.Approved)
+            throw new ForbiddenAccessException("KYC verification required to deposit.");
 
         var userAccount = await _accountRepository.GetByIdAsync(request.AccountId, cancellationToken);
         if (userAccount == null)
             throw new NotFoundException(nameof(Account), request.AccountId);
-
         if (userAccount.UserId != user!.Id && !_currentUserService.IsInRole("Admin"))
             throw new ForbiddenAccessException();
 
-        var systemReservedAccount = await _accountRepository
-            .GetSystemReservedAccountByCurrencyAsync(request.CurrencyCode, cancellationToken);
+        var systemUser = await _userRepository.GetByEmailAsync("system@internal", cancellationToken);
+        if (systemUser == null)
+            throw new DomainException("System user not found");
 
-        if (systemReservedAccount == null)
-            throw new DomainException($"System reserve account for currency {request.CurrencyCode} not found");
+        var systemReserve = (await _accountRepository.GetByUserIdAsync(systemUser.Id, cancellationToken))
+            .FirstOrDefault(a => a.Type == AccountType.SystemReserve && a.Currency.Code == request.CurrencyCode);
+        if (systemReserve == null)
+            throw new DomainException($"System reserve account for currency {request.CurrencyCode} not found.");
 
         var currency = CurrencyRegistry.FromCode(request.CurrencyCode);
         var money = new Money(request.Amount, currency);
+
+        await _unitOfWork.BeginTransactionAsync(IsolationLevel.Serializable, cancellationToken);
 
         await _unitOfWork.BeginTransactionAsync(System.Data.IsolationLevel.Serializable, cancellationToken);
 
         try
         {
             var transaction = _transferDomainService.Transfer(
-                systemReservedAccount,
+                systemReserve,
                 userAccount,
                 money,
                 request.Description,
-                new IdempotencyKey(request.Idempotency));
+                new IdempotencyKey(request.IdempotencyKey));
 
-            _accountRepository.Update(systemReservedAccount);
+            _accountRepository.Update(systemReserve);
             _accountRepository.Update(userAccount);
             _transactionRepository.Add(transaction);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
 
-            var domainEvents = transaction.DomainEvents.ToList();
-            transaction.ClearDomainEvents();
-
             foreach (var domainEvent in transaction.DomainEvents)
             {
                 await _mediator.Publish(domainEvent, cancellationToken);
             }
+            transaction.ClearDomainEvents();
 
             _logger.LogInformation("Deposit completed successfully. TransactionId: {TransactionId}", transaction.Id);
 
