@@ -99,10 +99,11 @@ public class DepositCommandHandler : IRequestHandler<DepositCommand, Transaction
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
-
+            
             foreach (var domainEvent in transaction.DomainEvents)
             {
-                await _mediator.Publish(domainEvent, cancellationToken);
+                if (domainEvent is MoneyTransferredEvent moneyTransferred)
+                    await _mediator.Publish(new MoneyTransferredNotification(moneyTransferred), cancellationToken);
             }
             transaction.ClearDomainEvents();
 

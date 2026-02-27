@@ -134,7 +134,7 @@ public class TransferCommandHandler : IRequestHandler<TransferCommand, Transacti
             fromAccount.Id,
             toAccount.Id);
 
-        await _unitOfWork.BeginTransactionAsync(System.Data.IsolationLevel.Serializable,cancellationToken);
+        await _unitOfWork.BeginTransactionAsync(IsolationLevel.Serializable,cancellationToken);
 
         try
         {
@@ -153,16 +153,16 @@ public class TransferCommandHandler : IRequestHandler<TransferCommand, Transacti
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
 
+            foreach (var domainEvent in transaction.DomainEvents)
+            {
+                if (domainEvent is MoneyTransferredEvent moneyTransferred)
+                    await _mediator.Publish(new MoneyTransferredNotification(moneyTransferred), cancellationToken);
+            }
+            transaction.ClearDomainEvents();
+
             _logger.LogInformation(
                 "Transfer completed. TransactionId={TransactionId}",
                 transaction.Id);
-
-            // Publish domain events after successful commit
-            foreach (var domainEvent in transaction.DomainEvents)
-            {
-                await _mediator.Publish(domainEvent, cancellationToken);
-            }
-            transaction.ClearDomainEvents();
 
             Console.WriteLine(_unitOfWork.GetType().FullName);
 
