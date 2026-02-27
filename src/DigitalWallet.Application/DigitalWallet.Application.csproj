@@ -16,16 +16,21 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" />
     <PackageReference Include="Polly" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Common/Attributes/" />
     <Folder Include="Common/Mappings/" />
     <Folder Include="DTOs/" />
-    <Folder Include="Features/Accounts/Queries/" />
+    <Folder Include="Features/Admin/Commands/" />
     <Folder Include="Features/Authentication/Commands/" />
+    <Folder Include="Features/Kyc/" />
+    <Folder Include="Features/Kyc/Commands/" />
+    <Folder Include="Features/Kyc/Queries/" />
     <Folder Include="Features/Transaction/Notifications/" />
     <Folder Include="Features/Transaction/Queries/" />
     <Folder Include="Features/Users/Commands/" />
