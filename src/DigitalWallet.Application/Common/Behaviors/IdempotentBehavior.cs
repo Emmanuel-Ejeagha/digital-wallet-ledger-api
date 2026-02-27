@@ -1,25 +1,5 @@
 namespace DigitalWallet.Application.Common.Behaviors;
 /// <summary>
-/// Attribute used to mark a MediatR request as idempotent.
-/// When applied, the IdempotencyBehavior will ensure the request
-/// is processed only once
-/// </summary>
-[AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-public sealed class IdempotentAttribute : Attribute
-{
-    /// <summary>
-    /// Indicates where the idempotency key originates (e.g., Header, Body)
-    /// Reserved for future use
-    /// </summary>
-    public string KeySource { get; }
-    public IdempotentAttribute(string keySource = "Header")
-    {
-        KeySource = keySource;
-    }
-
-}
-
-/// <summary>
 /// MediatR pipeline behavior that enforces idempotency for requests
 /// marked with <see cref="cref="IdemptencyAttribute"/> 
 /// It prevents duplicate execution by acquiring a lock and returning cached responses for repeated keys.
