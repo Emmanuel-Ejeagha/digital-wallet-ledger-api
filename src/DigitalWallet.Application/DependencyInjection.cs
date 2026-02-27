@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace DigitalWallet.Application;
 /// <summary>
 /// Provides extention methods for reegistering Application layer
-/// services, handlers, validators, and pipeline behaviors
+/// /// services, handlers, validators, and pipeline behaviors
 /// into the dependency injection container.
 /// </summary>
 public static class DependencyInjection
@@ -17,24 +17,16 @@ public static class DependencyInjection
     {
         var assembly = Assembly.GetExecutingAssembly();
 
-        // AutoMapper profiles
         services.AddAutoMapper(assembly);
-
-        // FluentValidation validators
         services.AddValidatorsFromAssembly(assembly);
-
-        // MediatR + pipeline behaviors
         services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-
-            // Order matters (outer → inner)
+            cfg.RegisterServicesFromAssembly(assembly);
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(IdempotencyBehavior<,>));
-        cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         });
 
-            // Domain services
             services.AddScoped<TransferDomainService>();
 
             return services;
