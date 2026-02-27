@@ -9,7 +9,7 @@ public class TransactionDto : IMapFrom<Transaction>
     public string Description { get; set; } = string.Empty;
     public string Status { get; set; } = string.Empty;
     public DateTime? CompletedAt { get; set; }
-    public List<LedgerEntryDto> LedgerEntries { get; set; } = new();
+    public List<LedgerEntryDto> Entries { get; set; } = new();
 }
 
 public class LedgerEntryDto : IMapFrom<LedgerEntry>
@@ -22,8 +22,4 @@ public class LedgerEntryDto : IMapFrom<LedgerEntry>
     public string Description { get; set; } = string.Empty;
 }
 
-public class MoneyDto
-{
-    public decimal Amount { get; set; }
-    public CurrencyDto Currency { get; set; } = new();
-}
+
