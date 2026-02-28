@@ -8,12 +8,12 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    // DbSets for aggregates
     public DbSet<User> Users => Set<User>();
     public DbSet<Account> Accounts => Set<Account>();
     public DbSet<Transaction> Transactions => Set<Transaction>();
     public DbSet<LedgerEntry> LedgerEntries => Set<LedgerEntry>();
-    public DbSet<IdempotentRequest> IdempotentRequests => Set<IdempotentRequest>(); // For idempotency
+    public DbSet<KycSubmission> KycSubmissions => Set<KycSubmission>();
+    public DbSet<IdempotentRequest> IdempotentRequests => Set<IdempotentRequest>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
