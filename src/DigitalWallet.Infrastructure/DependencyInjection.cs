@@ -16,15 +16,16 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IAccountRepository, AccountRepository>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
+        services.AddScoped<IKycSubmissionRepository, KycSubmissionRepository>();
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IDateTime, DateTimeService>();
+        services.AddScoped<IIdempotencyService, IdempotencyService>();
         services.AddScoped<IEmailService, EmailService>();
         services.Configure<SmtpSettings>(configuration.GetSection("SmtpSettings"));
 
-        // Unit of Work
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-        // Services]
-        services.AddScoped<IDateTime, DateTimeService>();
-        services.AddScoped<IIdempotencyService, IdempotencyService>();
+        services.AddScoped<IFileStorageService, LocalFileStorageService>();
+        services.Configure<FileStorageSettings>(configuration.GetSection("FileStorage"));
 
         return services;
     }
