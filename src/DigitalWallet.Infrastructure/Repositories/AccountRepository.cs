@@ -36,18 +36,6 @@ public class AccountRepository : IAccountRepository
                 cancellationToken);
             
     }
-    
-    public async Task<Account?> GetSystemReservedAccountByCurrencyAsync(
-        string currencyCode,
-        CancellationToken cancellationToken = default)
-    {
-        return await _context.Accounts
-            .Include(a => a.Currency)
-            .FirstOrDefaultAsync(a =>
-                a.Type == AccountType.SystemReserve &&
-                a.Currency.Code == currencyCode,
-                cancellationToken);
-    }
 
     public void Add(Account account)
     {
