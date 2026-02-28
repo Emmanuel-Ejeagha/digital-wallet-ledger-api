@@ -29,7 +29,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.IsActive)
             .IsRequired();
 
-        // Indexes
         builder.HasIndex(u => u.Auth0UserId)
             .IsUnique()
             .HasDatabaseName("IX_Users_Auth0UserId");
@@ -38,7 +37,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsUnique()
             .HasDatabaseName("IX_Users_Email");
 
-        // Audit properties
         builder.Property(u => u.CreatedAt)
             .IsRequired();
 

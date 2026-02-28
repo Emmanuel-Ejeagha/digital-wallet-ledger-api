@@ -23,7 +23,6 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
 
         builder.Property(t => t.CompletedAt);
 
-        // Idempotency as owned type
         builder.OwnsOne(t => t.IdempotencyKey, key =>
         {
             key.Property(k => k.Value)
@@ -34,19 +33,17 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
             key.HasIndex(k => k.Value)
                 .IsUnique()
                 .HasDatabaseName("IX_Transactions_Idempotency");
+
             key.WithOwner();
         });
 
-        // Relationships
         builder.HasMany(t => t.Entries)
             .WithOne()
             .HasForeignKey(e => e.TransactionId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        // Indexes
         builder.HasIndex(t => t.Reference)
         .IsUnique()
         .HasDatabaseName("IX_Transactions_Reference");
-
     }
 }
