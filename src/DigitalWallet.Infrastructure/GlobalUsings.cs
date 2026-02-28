@@ -19,3 +19,4 @@ global using DigitalWallet.Infrastructure.Persistence;
 global using DigitalWallet.Infrastructure.Repositories;
 global using DigitalWallet.Infrastructure.Services;
 global using DigitalWallet.Infrastructure.Entities;
+global using DigitalWallet.Application.Common.Interfaces.Repositories;
