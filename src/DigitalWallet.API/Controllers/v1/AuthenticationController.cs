@@ -1,6 +1,7 @@
 namespace DigitalWallet.API.Controllers.v1;
 /// <summary>
-/// Handles authentication related endpoints (login, token exchange, etc.)
+/// Provides authentication-related configuration to the frontend.
+/// Actual authentication is handled by Auth0's Universal Login.
 /// </summary>
 [ApiController]
 [ApiVersion("1.0")]
@@ -17,10 +18,11 @@ public class AuthenticationController : ControllerBase
     }
 
     /// <summary>
-    /// Returns Auth0 configuration for the frontend (domain, clientId, audience).
+    /// Returns the Auth0 configuration (domain, clientId, audience) for the frontend.
     /// </summary>
     [HttpGet("config")]
     [AllowAnonymous]
+    [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
     public IActionResult GetConfig()
     {
         return Ok(new
@@ -30,18 +32,11 @@ public class AuthenticationController : ControllerBase
             audience = _auth0Settings.Audience
         });
     }
-
-    /// <summary>
-    /// Optional endpoint to exchange an authorization code for token (if not using Auth0's built-in).
-    /// </summary>
-    [HttpPost("login")]
-    [AllowAnonymous]
-    public IActionResult Login([FromBody] LoginCommand command)
-    {
-        return BadRequest("Please use Auth0's Universal Login directly.");
-    }
 }
 
+/// <summary>
+/// Auth0 settings from configuration.
+/// </summary>
 public class Auth0Settings
 {
     public string Domain { get; set; } = string.Empty;

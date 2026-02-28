@@ -1,7 +1,7 @@
-using DigitalWallet.Application.Features.Accounts.Queries;
-
 namespace DigitalWallet.API.Controllers.v1;
-
+/// <summary>
+/// Manages user wallet accounts.
+/// </summary>
 [Authorize]
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
@@ -18,9 +18,11 @@ public class WalletController : ControllerBase
     /// <summary>
     /// Create a new wallet account for the authenticated user.
     /// </summary>
+    /// <param name="command">Account creation details including idempotency key.</param>
     [HttpPost("accounts")]
     [ProducesResponseType(typeof(AccountDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<AccountDto>> CreateAccount([FromBody] CreateAccountCommand command)
     {
         var result = await _mediator.Send(command);
@@ -28,7 +30,7 @@ public class WalletController : ControllerBase
     }
 
     /// <summary>
-    /// Gets the balance of a specific account.
+    /// Gets the balance and details of a specific account.
     /// </summary>
     [HttpGet("accounts/{accountId:guid}/balance")]
     [ProducesResponseType(typeof(AccountDto), StatusCodes.Status200OK)]
@@ -41,13 +43,13 @@ public class WalletController : ControllerBase
     }
 
     /// <summary>
-    /// Lists all accounts for the current user.
+    /// Lists all accounts belonging to the current user.
     /// </summary>
     [HttpGet("accounts")]
     [ProducesResponseType(typeof(IEnumerable<AccountDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<AccountDto>>> GetMyAccounts()
     {
-        var query = new GetAccountByUserQuery();
+        var query = new GetUserAccountQuery();
         var result = await _mediator.Send(query);
         return Ok(result);
     }
