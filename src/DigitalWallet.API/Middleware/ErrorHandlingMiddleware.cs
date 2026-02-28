@@ -2,7 +2,10 @@ using ValidationException = DigitalWallet.Application.Common.Exceptions.Validati
 
 
 namespace DigitalWallet.API.Middleware;
-
+/// <summary>
+/// Global exception handling middleware that catches all unhandled exceptions
+/// and returns a consistent JSON error response.
+/// </summary>
 public class ErrorHandlingMiddleware
 {
     private readonly RequestDelegate _next;
