@@ -26,11 +26,10 @@ public class IdempotencyService : IIdempotencyService
     /// <returns>True if this instance acquired the lock and should process; otherwise false.</returns>
     public async Task<bool> TryBeginAsync(string key, TimeSpan ttl, CancellationToken cancellationToken = default)
     {
-        // Hash the key? No, key is already unique per user
         var now = _dateTime.UtcNow;
         var expiresAt = now.Add(ttl);
 
-        
+
         await using var transaction = await _context.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable, cancellationToken);
 
         var existing = await _context.IdempotentRequests
@@ -38,12 +37,11 @@ public class IdempotencyService : IIdempotencyService
 
         if (existing == null)
         {
-            // No record - we are the first. Insert and commit.
             var request = new IdempotentRequest
             {
                 Id = Guid.NewGuid(),
                 Key = key,
-                RequestHash = string.Empty, // Will be set later when we have the payload
+                RequestHash = string.Empty,
                 IsProcessed = false,
                 CreatedAt = now,
                 ExpiresAt = expiresAt
@@ -54,15 +52,12 @@ public class IdempotencyService : IIdempotencyService
             return true;
         }
 
-        // Record exists.
         if (existing.IsProcessed)
         {
             await transaction.RollbackAsync(cancellationToken);
             return false;
         }
 
-        // Record exists but not processed - another request is in progress.
-        // We could optionally check if the request has expired and allow retry
         if (existing.ExpiresAt < now)
         {
             _context.IdempotentRequests.Remove(existing);
@@ -81,9 +76,27 @@ public class IdempotencyService : IIdempotencyService
             return true;
         }
 
-        // still within TTL and not processed - another request is active.
         await transaction.RollbackAsync(cancellationToken);
         return false;
+    }
+    
+    /// <summary>
+    /// /// Retrieves a cached response for the given key, if it exists and has not expired.
+    /// </summary>
+    /// <typeparam name="TResponse">Type of the response.</typeparam>
+    /// <param name="key">Idempotency key.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The cached response, or default if not found/expired.</returns>
+    public async Task<TResponse?> GetCachedResponseAsync<TResponse>(string key, CancellationToken cancellationToken = default)
+    {
+        var request = await _context.IdempotentRequests
+            .AsNoTracking()
+            .FirstOrDefaultAsync(r => r.Key == key && r.IsProcessed && r.ExpiresAt > _dateTime.UtcNow, cancellationToken);
+
+        if (request == null)
+            return default;
+
+        return JsonSerializer.Deserialize<TResponse>(request.Response);
     }
 
     /// <summary>
@@ -127,25 +140,6 @@ public class IdempotencyService : IIdempotencyService
             request.RequestHash = requestHash;
             await _context.SaveChangesAsync(cancellationToken);
         }
-    }
-
-    /// <summary>
-    /// Retrieves a cached response for the given key, if it exists and has not expired.
-    /// </summary>
-    /// <typeparam name="TResponse">Type of the response.</typeparam>
-    /// <param name="key">Idempotency key.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The cached response, or default if not found/expired.</returns>
-    public async Task<TResponse?> GetCachedResponseAsync<TResponse>(string key, CancellationToken cancellationToken = default)
-    {
-        var request = await _context.IdempotentRequests
-            .AsNoTracking()
-            .FirstOrDefaultAsync(r => r.Key == key && r.IsProcessed && r.ExpiresAt > _dateTime.UtcNow, cancellationToken);
-
-        if (request == null)
-            return default;
-
-        return JsonSerializer.Deserialize<TResponse>(request.Response);
     }
 
     /// <summary>
