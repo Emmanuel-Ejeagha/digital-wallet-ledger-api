@@ -20,11 +20,16 @@ public class TransactionRepository : ITransactionRepository
             .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
     }
 
-    public async Task<IReadOnlyList<Transaction>> GetByAccountIdAsync(Guid accountId, DateTime? fromUtc, DateTime? toUtc, int page, int pageSize, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<Transaction>> GetByAccountIdAsync(
+        Guid accountId,
+        DateTime? fromUtc,
+        DateTime? toUtc,
+        int page,
+        int pageSize,
+        CancellationToken cancellationToken = default)
     {
         var query = _context.Transactions
-            .Where(t => t.Entries
-            .Any(e => e.AccountId == accountId));
+            .Where(t => t.Entries.Any(e => e.AccountId == accountId));
 
         if (fromUtc.HasValue)
             query = query.Where(t => t.CreatedAt >= fromUtc.Value);
@@ -41,6 +46,14 @@ public class TransactionRepository : ITransactionRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<List<Transaction>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Transactions
+            .Include(t => t.Entries)
+                .ThenInclude(e => e.Amount.Currency)
+            .ToListAsync(cancellationToken);
+    }
+
     public void Add(Transaction transaction)
     {
         _context.Transactions.Add(transaction);
@@ -50,4 +63,5 @@ public class TransactionRepository : ITransactionRepository
     {
         _context.Entry(transaction).State = EntityState.Modified;
     }
+
 }

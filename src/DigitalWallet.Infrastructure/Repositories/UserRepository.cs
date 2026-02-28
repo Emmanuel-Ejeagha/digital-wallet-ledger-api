@@ -38,17 +38,14 @@ public class UserRepository : IUserRepository
         return await _context.Users
             .AnyAsync(u => u.Auth0UserId == auth0UserId, cancellationToken);
     }
-    
-    public void Add(User user)
+
+    public async Task<List<User>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default)
     {
-        _context.Users.Add(user);
-    }
-
-
-
-    public void Update(User user)
-    {
-        _context.Entry(user).State = EntityState.Modified;
+        return await _context.Users
+            .OrderBy(u => u.CreatedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<User?> GetByAccountIdAsync(Guid accountId, CancellationToken cancellationToken = default)
@@ -60,5 +57,15 @@ public class UserRepository : IUserRepository
         return await _context.Users
             .AsTracking()
             .FirstOrDefaultAsync(u => u.Id == account.Id, cancellationToken);
+    }
+    
+    public void Add(User user)
+    {
+        _context.Users.Add(user);
+    }
+
+    public void Update(User user)
+    {
+        _context.Entry(user).State = EntityState.Modified;
     }
 }
