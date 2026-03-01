@@ -23,3 +23,6 @@ global using DigitalWallet.Application.Common.Interfaces;
 global using DigitalWallet.Application.Features.Accounts.Commands;
 global using DigitalWallet.Application.Features.Transaction.Commands;
 global using DigitalWallet.Application.DTOs;
+global using DigitalWallet.API.Controllers.v1;
+global using DigitalWallet.API.Middleware;
+global using DigitalWallet.API.Services;
