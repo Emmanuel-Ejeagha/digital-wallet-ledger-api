@@ -5,9 +5,12 @@ using DigitalWallet.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<ApplicationDbContext>();
 // Bind Auth0 settings from configuration
 var auth0Settings = builder.Configuration.GetSection("Auth0").Get<Auth0Settings>();
 builder.Services.Configure<Auth0Settings>(builder.Configuration.GetSection("Auth0"));
@@ -113,5 +116,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 await app.MigrateAndSeedAsync();
+
+app.MapHealthChecks("/health");
 
 app.Run();
