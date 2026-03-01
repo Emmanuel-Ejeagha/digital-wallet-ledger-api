@@ -1,0 +1,127 @@
+## .NET Core / ASP.NET Core
+bin/
+obj/
+out/
+publish/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.sln.docstates
+
+## Visual Studio Code
+.vscode/
+*.code-workspace
+
+## JetBrains Rider
+.idea/
+*.sln.iml
+
+## User-specific files
+*.rsuser
+*.dbmdl
+*.dbmdl
+*.jfm
+*.psess
+*.vsp
+*.psess
+*.vspx
+*.pidb
+*.log
+
+## Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+## Visual Studio generated files
+*.crunchsolution.*
+*.crunchproject.*
+*.tmp
+*.ncrunch*
+*.user
+*.idea
+*.suo
+*.userprefs
+*.sln.docstates
+*.vs/
+
+## .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+**/Properties/launchSettings.json
+
+## ASP.NET Core
+appsettings.Development.json
+appsettings.Production.json
+**/appsettings.*.json    # but keep the base appsettings.json for structure
+**/appsettings.json      # UNLESS you store secrets, we recommend not committing secrets
+
+/appsettings.json
+
+## Test results
+TestResults/
+*.trx
+*.cache
+*.dotSettings.user
+
+## Mac OS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+## Linux
+*~
+.Trash-*
+
+## Node (if any)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+## Docker
+docker-compose.override.yml
+*.tmp
+*.bak
+*.swp
+*.pid
+*.seed
+*.pid.lock
+
+## Secrets
+secrets.json
+*.pfx
+*.p12
+*.key
+*.crt
+*.cert
+/secrets/
+/appsettings.Production.json
+
+## Package Manager
+packages/
+*.nupkg
+*.snupkg
+
+## Coverage
+coverage/
+*.coverage
+*.coveragexml
+*.coveragereport
+
+## Environment files
+.env
+.env.local
+.env.*.local
