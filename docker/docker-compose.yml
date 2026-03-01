@@ -3,49 +3,41 @@ services:
     image: postgres:15-alpine
     container_name: digitalwallet-postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: DigitalWallet
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    restart: unless-stopped
     networks:
       - digitalwallet-network
 
   api:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
+    image: your-registry/digitalwallet-api:latest
     container_name: digitalwallet-api
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=DigitalWallet;Username=postgres;Password=postgres
-      - Auth0__Domain=your-auth0-domain
-      - Auth0__ClientId=your-auth0-client-id
-      - Auth0__Audience=your-auth0-audience
-      - SmtpSettings__SmtpHost=smtp.gmail.com
-      - SmtpSettings__SmtpPort=587
-      - SmtpSettings__SmtpUser=your-email@gmail.com
-      - SmtpSettings__SmtpPassword=your-app-password
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=DigitalWallet;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      - Auth0__Domain=${AUTH0_DOMAIN}
+      - Auth0__ClientId=${AUTH0_CLIENT_ID}
+      - Auth0__Audience=${AUTH0_AUDIENCE}
+      - SmtpSettings__SmtpHost=${SMTP_HOST}
+      - SmtpSettings__SmtpPort=${SMTP_PORT}
+      - SmtpSettings__SmtpUser=${SMTP_USER}
+      - SmtpSettings__SmtpPassword=${SMTP_PASSWORD}
       - SmtpSettings__UseSsl=true
-      - SmtpSettings__FromEmail=noreply@digitalwallet.com
+      - SmtpSettings__FromEmail=${SMTP_FROM_EMAIL}
       - SmtpSettings__FromName=Digital Wallet
       - FileStorage__BasePath=/app/uploads
-      - WebhookApiKey=your-secure-webhook-key
+      - WebhookApiKey=${WEBHOOK_API_KEY}
     ports:
-      - "8080:80"
+      - "80:80"
     depends_on:
-      postgres:
-        condition: service_healthy
+      - postgres
     volumes:
       - uploads_data:/app/uploads
+    restart: unless-stopped
     networks:
       - digitalwallet-network
 
