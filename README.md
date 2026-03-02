@@ -1,4 +1,4 @@
-# Digital Wallet – Bank‑Grade Ledger API
+# Digital Wallet – Bank-Grade Ledger API
 
 A production‑ready digital wallet and double‑entry ledger system built with **.NET 10**, **Clean Architecture**, **PostgreSQL**, and **Auth0**. Designed for financial accuracy, idempotency, and regulatory compliance.
 
@@ -13,12 +13,14 @@ A production‑ready digital wallet and double‑entry ledger system built with 
 - ✅ **Multi‑currency support** – USD, EUR, GBP, NGN with proper decimal precision.
 - ✅ **Wallet operations** – create accounts, deposit, withdraw, transfer.
 - ✅ **Transaction history** – paginated, filterable by date range.
-- ✅ **Admin endpoints** – manage users, view system accounts.
+- ✅ **KYC verification** – submit identity documents, approve/reject via admin.
+- ✅ **Admin endpoints** – manage users, view system accounts, reconcile ledger.
 - ✅ **Webhook support** – for Auth0 user signup and external payment providers.
 - ✅ **Global error handling** – consistent JSON error responses.
 - ✅ **API versioning** – future‑proof your API.
 - ✅ **Swagger UI** – interactive documentation with JWT support.
 - ✅ **Dockerised** – run with PostgreSQL in containers.
+- ✅ **Comprehensive tests** – unit and integration tests with Testcontainers.
 
 ---
 
@@ -32,23 +34,25 @@ A production‑ready digital wallet and double‑entry ledger system built with 
 | **API**        | .NET 10, ASP.NET Core, Auth0, Swashbuckle |
 | **Database**   | PostgreSQL 15+ (ACID, row‑level locking)  |
 | **Container**  | Docker, Docker Compose                     |
-| **Testing**    | xUnit, Moq, Testcontainers                 |
+| **Testing**    | xUnit, Moq, Testcontainers, FluentAssertions |
 
 ---
 
-## Clean Architecture Overview
+## Architecture Overview
 
 ```
-src/
-├── DigitalWallet.Domain          # Entities, value objects, domain services
-├── DigitalWallet.Application      # Use cases, DTOs, interfaces, behaviours
-├── DigitalWallet.Infrastructure   # EF Core, repositories, email, idempotency
-├── DigitalWallet.API              # Controllers, middleware, Auth0 config
-tests/
-├── Domain.UnitTests
-├── Application.UnitTests
-├── Infrastructure.IntegrationTests
-└── API.IntegrationTests
+┌─────────────────────────────────────┐
+│           API (Controllers)         │
+├─────────────────────────────────────┤
+│         Application (Use Cases)      │
+├─────────────────────────────────────┤
+│            Domain (Entities)         │
+└─────────────────────────────────────┘
+         ▲              ▲
+         │              │
+┌─────────────────────────────────────┐
+│       Infrastructure (EF, Repos)     │
+└─────────────────────────────────────┘
 ```
 
 - **Domain** has **zero dependencies**.
@@ -79,7 +83,7 @@ cd digital-wallet
 
 ### 2. Configure Auth0
 
-1. Create a new **API** in Auth0 with identifier `https://digital-wallet-api` (or your own).
+1. Create a new **API** in Auth0 with identifier `https://digital-wallet-api`.
 2. Create a **Machine to Machine Application** for the API (or use the default one).
 3. Note the **Domain**, **Client ID**, and **Audience**.
 4. In Auth0, add roles (`User`, `Admin`, `Compliance`) and assign them to users.
@@ -95,12 +99,12 @@ Copy `appsettings.json` to `appsettings.Development.json` (or modify directly). 
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Port=5432;Database=WalletLedger;Username=postgres;Password=yourpassword"
+    "DefaultConnection": "Host=localhost;Port=5432;Database=DigitalWallet;Username=postgres;Password=yourpassword"
   },
   "Auth0": {
     "Domain": "your-tenant.auth0.com",
     "ClientId": "your-client-id",
-    "Audience": "https://your-api-identifier"
+    "Audience": "https://digital-wallet-api"
   },
   "SmtpSettings": {
     "SmtpHost": "smtp.gmail.com",
@@ -111,7 +115,10 @@ Copy `appsettings.json` to `appsettings.Development.json` (or modify directly). 
     "FromEmail": "noreply@digitalwallet.com",
     "FromName": "Digital Wallet"
   },
-  "WebhookApiKey": "a-very-secret-key"
+  "FileStorage": {
+    "BasePath": "/app/uploads"
+  },
+  "WebhookApiKey": "your-secure-webhook-key"
 }
 ```
 
@@ -136,7 +143,8 @@ The API will be available at `https://localhost:5001`. Swagger UI at `https://lo
 The easiest way to run the entire stack:
 
 ```bash
-docker-compose up -d
+cd docker
+docker compose up -d
 ```
 
 This starts:
@@ -148,13 +156,13 @@ The database is automatically migrated and seeded on startup.
 To stop:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 To remove volumes (reset database):
 
 ```bash
-docker-compose down -v
+docker compose down -v
 ```
 
 ---
@@ -175,41 +183,39 @@ Click **Authorize** and enter your Auth0 JWT token (format: `Bearer <token>`).
 | `/api/v1/transaction/deposit`     | POST   | Deposit from system reserve          | ✅ (User)     |
 | `/api/v1/transaction/withdraw`    | POST   | Withdraw to system payout            | ✅ (User)     |
 | `/api/v1/transaction/history/{accountId}` | GET | Get transaction history           | ✅ (User)     |
+| `/api/v1/kyc/submit`              | POST   | Submit KYC documents (multipart)     | ✅ (User)     |
+| `/api/v1/kyc/status`              | GET    | Get current user's KYC status        | ✅ (User)     |
 | `/api/v1/admin/users`             | GET    | List all users (admin only)          | ✅ (Admin)    |
+| `/api/v1/admin/kyc-submissions`   | GET    | List KYC submissions (admin only)    | ✅ (Admin)    |
+| `/api/v1/admin/reconcile`         | POST   | Run ledger reconciliation (admin)    | ✅ (Admin)    |
 
 ---
 
 ## Testing
 
-Run unit and integration tests with:
+Run all tests (unit + integration):
 
 ```bash
 dotnet test
 ```
 
-Integration tests use **Testcontainers** to spin up a real PostgreSQL instance, ensuring full database fidelity.
+Integration tests use **Testcontainers** to spin up a real PostgreSQL instance, ensuring full database fidelity. The first run may take a few minutes to download the PostgreSQL image.
 
 ---
 
-## Deployment to Production
+## Deployment to Render
 
-1. **Build Docker image**:
-   ```bash
-   docker build -t digital-wallet-api -f docker/Dockerfile .
-   ```
+1. Push your code to a GitHub repository.
+2. Create a new **Web Service** on [Render](https://render.com) connected to your repo.
+3. Use the following settings:
+   - **Environment**: Docker
+   - **Build Command**: (leave blank – Render uses your Dockerfile)
+   - **Start Command**: (leave blank)
+4. Add the environment variables listed in `appsettings.json` (use double underscores for nesting, e.g., `ConnectionStrings__DefaultConnection`).
+5. Create a **PostgreSQL** database on Render and set the `ConnectionStrings__DefaultConnection` to its internal URL.
+6. Deploy.
 
-2. **Push to your container registry**.
-
-3. **Set environment variables** for production (never commit secrets):
-   - `ConnectionStrings__DefaultConnection`
-   - `Auth0__Domain`
-   - `Auth0__Audience`
-   - `SmtpSettings__*`
-   - `WebhookApiKey`
-
-4. **Use a reverse proxy** (nginx, Traefik) to handle TLS.
-
-5. **Ensure database** is backed up regularly and monitored.
+Your API will be live at `https://your-app.onrender.com`. Swagger is available at `/swagger`.
 
 ---
 
@@ -221,7 +227,7 @@ We welcome contributions! Please follow these guidelines:
 - Write **unit tests** for domain logic and **integration tests** for database operations.
 - Ensure **idempotency** for all write operations.
 - Keep **migrations** in Infrastructure project.
-- Document new endpoints in Swagger (via attributes).
+- Document new endpoints in Swagger (via XML comments).
 - Run `dotnet format` before committing.
 
 ---
@@ -238,5 +244,3 @@ This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for d
 - Identity by [Auth0](https://auth0.com/)
 - Database by [PostgreSQL](https://www.postgresql.org/)
 - Inspired by Martin Fowler’s [Clean Architecture](https://martinfowler.com/articles/microservices.html)
-
----
