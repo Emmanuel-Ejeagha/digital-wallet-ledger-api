@@ -4,14 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
-    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
-
-  <ItemGroup>
-    <!-- Explicitly remove any .resx wildcards that might be injected -->
-    <EmbeddedResource Remove="**/*.resx" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DigitalWallet.Application\DigitalWallet.Application.csproj" />
