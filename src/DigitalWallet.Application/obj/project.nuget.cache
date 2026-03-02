@@ -23,15 +23,5 @@
     "/home/emmytek/.nuget/packages/polly/8.3.0/polly.8.3.0.nupkg.sha512",
     "/home/emmytek/.nuget/packages/polly.core/8.3.0/polly.core.8.3.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1900",
-      "level": "Warning",
-      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json.",
-      "projectPath": "/home/emmytek/Desktop/digital-wallet-ledger-api/src/DigitalWallet.Application/DigitalWallet.Application.csproj",
-      "warningLevel": 1,
-      "filePath": "/home/emmytek/Desktop/digital-wallet-ledger-api/src/DigitalWallet.Application/DigitalWallet.Application.csproj",
-      "targetGraphs": []
-    }
-  ]
+  "logs": []
 }
