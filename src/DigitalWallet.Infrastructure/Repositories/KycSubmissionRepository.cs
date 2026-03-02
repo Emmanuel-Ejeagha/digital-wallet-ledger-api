@@ -1,5 +1,3 @@
-using DigitalWallet.Infrastructure.Persistence;
-
 namespace DigitalWallet.Infrastructure.Repositories;
 
 public class KycSubmissionRepository : IKycSubmissionRepository

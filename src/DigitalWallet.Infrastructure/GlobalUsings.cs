@@ -21,3 +21,7 @@ global using DigitalWallet.Application.Common.Interfaces.Repositories;
 global using System.Collections.Generic;
 global using System.Linq;
 global using System.Threading;
+global using DigitalWallet.Infrastructure.Entities;
+global using DigitalWallet.Infrastructure.Persistence;
+global using System.IO;
+

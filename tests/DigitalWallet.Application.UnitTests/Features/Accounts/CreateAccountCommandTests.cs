@@ -1,19 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using DigitalWallet.Application.Common.Exceptions;
-using DigitalWallet.Application.Common.Interfaces;
-using DigitalWallet.Application.Common.Interfaces.Repositories;
-using DigitalWallet.Application.DTOs;
-using DigitalWallet.Application.Features.Accounts.Commands;
-using DigitalWallet.Domain.Entities;
-using DigitalWallet.Domain.Enums;
-using DigitalWallet.Domain.ValueObjects;
-using FluentAssertions;
-using Moq;
-using Xunit;
-
 namespace Application.UnitTests.Features.Accounts;
 
 public class CreateAccountCommandTests
@@ -35,7 +19,8 @@ public class CreateAccountCommandTests
             _currentUserMock.Object,
             _unitOfWorkMock.Object,
             _mapperMock.Object,
-            _kycRepoMock.Object);
+            _kycRepoMock.Object,
+            Mock.Of<ILogger<CreateAccountCommandHandler>>());
     }
 
     [Fact]

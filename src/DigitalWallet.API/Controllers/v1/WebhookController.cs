@@ -1,5 +1,3 @@
-using DigitalWallet.API.Filters;
-
 namespace DigitalWallet.API.Controllers.v1;
 /// <summary>
 /// Handles incoming webhooks from external services (Auth0, payment providers)

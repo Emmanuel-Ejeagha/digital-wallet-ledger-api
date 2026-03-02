@@ -1,24 +1,3 @@
-using System;
-using System.Data;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using MediatR;
-using Microsoft.Extensions.Logging;
-using Moq;
-using Xunit;
-using FluentAssertions;
-using DigitalWallet.Application.Common.Exceptions;
-using DigitalWallet.Application.Common.Interfaces;
-using DigitalWallet.Application.Common.Interfaces.Repositories;
-using DigitalWallet.Application.DTOs;
-using DigitalWallet.Application.Features.Transactions.Commands;
-using DigitalWallet.Application.Features.Transactions.Notifications;
-using DigitalWallet.Domain.DomainServices;
-using DigitalWallet.Domain.Entities;
-using DigitalWallet.Domain.Enums;
-using DigitalWallet.Domain.ValueObjects;
-
 namespace Application.UnitTests.Features.Transactions;
 
 public class TransferCommandTests
@@ -195,7 +174,7 @@ public class TransferCommandTests
         var act = () => _handler.Handle(command, CancellationToken.None);
 
         // Assert
-        await act.Should().ThrowAsync<Domain.Exceptions.DomainException>();
+        await act.Should().ThrowAsync<DomainException>();
         _unitOfWorkMock.Verify(x => x.RollbackTransactionAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 }

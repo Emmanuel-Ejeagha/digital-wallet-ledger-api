@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace DigitalWallet.Infrastructure.Persistence
 {
     /// <summary>

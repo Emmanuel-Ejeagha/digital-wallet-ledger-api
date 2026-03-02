@@ -1,4 +1,3 @@
-using DigitalWallet.Infrastructure.Persistence;
 using DigitalWallet.Infrastructure.Repositories;
 using DigitalWallet.Infrastructure.Services;
 

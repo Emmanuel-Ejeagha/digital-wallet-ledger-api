@@ -15,9 +15,6 @@ var builder = WebApplication.CreateBuilder(args);
 var auth0Settings = builder.Configuration.GetSection("Auth0").Get<Auth0Settings>();
 builder.Services.Configure<Auth0Settings>(builder.Configuration.GetSection("Auth0"));
 
-// builder.Services.AddHealthChecks()
-//     .AddDbContextCheck<ApplicationDbContext>();
-// Add JWT authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -119,6 +116,5 @@ app.MapControllers();
 
 await app.MigrateAndSeedAsync();
 
-// app.MapHealthChecks("/health");
 
 app.Run();

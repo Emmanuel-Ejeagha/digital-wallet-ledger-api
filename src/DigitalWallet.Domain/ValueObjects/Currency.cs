@@ -1,5 +1,3 @@
-using DigitalWallet.Domain.Base;
-
 namespace DigitalWallet.Domain.ValueObjects;
 /// <summary>
 /// Currency value object. Immutable, with predefined static instances for common currencies.

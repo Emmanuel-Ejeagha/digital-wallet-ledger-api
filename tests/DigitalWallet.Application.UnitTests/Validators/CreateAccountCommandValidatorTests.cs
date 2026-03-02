@@ -1,8 +1,4 @@
-using DigitalWallet.Application.Features.Accounts.Commands;
-using FluentAssertions;
 using FluentValidation.TestHelper;
-using Xunit;
-
 namespace Application.UnitTests.Validators;
 
 public class CreateAccountCommandValidatorTests

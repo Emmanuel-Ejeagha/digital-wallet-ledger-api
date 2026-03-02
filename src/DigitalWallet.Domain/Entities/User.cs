@@ -1,5 +1,3 @@
-using DigitalWallet.Domain.Base;
-
 namespace DigitalWallet.Domain.Entities;
 /// <summary>
 /// Application user. Identity is managed by Auth0; we store the Auth user ID.

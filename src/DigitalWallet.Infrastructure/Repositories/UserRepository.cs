@@ -1,5 +1,3 @@
-using DigitalWallet.Infrastructure.Persistence;
-
 namespace DigitalWallet.Infrastructure.Repositories;
 /// <summary>
 /// Repository for user entity

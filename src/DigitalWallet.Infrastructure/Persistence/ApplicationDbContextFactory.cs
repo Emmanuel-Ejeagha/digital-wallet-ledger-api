@@ -1,5 +1,3 @@
-using System.IO;
-
 namespace DigitalWallet.Infrastructure.Persistence
 {
     /// <summary>

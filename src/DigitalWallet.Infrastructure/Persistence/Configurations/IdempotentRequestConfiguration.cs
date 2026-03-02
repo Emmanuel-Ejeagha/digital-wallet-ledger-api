@@ -1,5 +1,3 @@
-using DigitalWallet.Infrastructure.Entities;
-
 namespace DigitalWallet.Infrastructure.Persistence.Configurations;
 
 public class IdempotentRequestConfiguration : IEntityTypeConfiguration<IdempotentRequest>
