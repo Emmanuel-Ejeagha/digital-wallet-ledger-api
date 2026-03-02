@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-  <Compile Include="**/*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-</ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DigitalWallet.Application\DigitalWallet.Application.csproj" />
   </ItemGroup>
 
