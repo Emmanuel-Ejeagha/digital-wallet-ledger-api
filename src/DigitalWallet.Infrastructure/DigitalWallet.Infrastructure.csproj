@@ -3,11 +3,9 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
-
-  <ItemGroup>
-  <EmbeddedResource Remove="**/*.resx" />
-</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DigitalWallet.Application\DigitalWallet.Application.csproj" />
@@ -19,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Persistence/MigrateAndSeedExtensions.cs" />
+    <None Include="Persistence/MigrateAndSeedExtensions.cs" />
   </ItemGroup>
 
   <ItemGroup>
