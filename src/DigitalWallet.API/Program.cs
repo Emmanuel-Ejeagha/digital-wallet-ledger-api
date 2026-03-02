@@ -1,4 +1,7 @@
 using System.Reflection;
+using DigitalWallet.API.Controllers.v1;
+using DigitalWallet.API.Middleware;
+using DigitalWallet.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;

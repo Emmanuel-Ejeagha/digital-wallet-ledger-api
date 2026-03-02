@@ -1,3 +1,5 @@
+using DigitalWallet.Infrastructure.Persistence;
+
 namespace DigitalWallet.Infrastructure.Repositories;
 /// <summary>
 /// Repository for Transaction aggregate
@@ -63,5 +65,4 @@ public class TransactionRepository : ITransactionRepository
     {
         _context.Entry(transaction).State = EntityState.Modified;
     }
-
 }

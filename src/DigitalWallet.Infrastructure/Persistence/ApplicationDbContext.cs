@@ -1,3 +1,5 @@
+using DigitalWallet.Infrastructure.Entities;
+
 namespace DigitalWallet.Infrastructure.Persistence;
 /// <summary>
 /// Entity Framework Core database context for the ledger system.

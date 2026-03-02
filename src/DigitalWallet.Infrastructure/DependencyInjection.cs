@@ -1,3 +1,7 @@
+using DigitalWallet.Infrastructure.Persistence;
+using DigitalWallet.Infrastructure.Repositories;
+using DigitalWallet.Infrastructure.Services;
+
 namespace DigitalWallet.Infrastructure;
 /// <summary>
 /// Extension method for registering infrastructure services

@@ -1,3 +1,5 @@
+using DigitalWallet.Infrastructure.Persistence;
+
 namespace DigitalWallet.Infrastructure.Repositories;
 /// <summary>
 /// Repository for Account aggregate

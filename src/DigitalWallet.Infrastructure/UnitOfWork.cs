@@ -1,3 +1,5 @@
+using DigitalWallet.Infrastructure.Persistence;
+
 namespace DigitalWallet.Infrastructure;
 /// <summary>
 /// Unit of work implementation that wraps the EF Core DbContext

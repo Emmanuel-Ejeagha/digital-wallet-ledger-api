@@ -1,3 +1,6 @@
+using DigitalWallet.Infrastructure.Entities;
+using DigitalWallet.Infrastructure.Persistence;
+
 namespace DigitalWallet.Infrastructure.Services;
 /// <summary>
 /// Idempotency service using a database table. Responses are stored as JSON with a TTL(Time to live)
