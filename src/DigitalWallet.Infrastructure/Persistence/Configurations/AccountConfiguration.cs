@@ -55,8 +55,8 @@ namespace DigitalWallet.Infrastructure.Persistence.Configurations
                 .HasDefaultValue(true);
 
             builder.Property(a => a.ConcurrencyToken)
-                .IsRowVersion()
-                .HasColumnName("xmin");
+                .HasColumnName("xmin")
+                .IsRowVersion();
 
             builder.HasOne<User>()
                 .WithMany()

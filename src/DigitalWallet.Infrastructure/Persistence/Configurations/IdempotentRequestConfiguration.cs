@@ -28,10 +28,10 @@ public class IdempotentRequestConfiguration : IEntityTypeConfiguration<Idempoten
 
         builder.Property(e => e.ExpiresAt)
             .IsRequired();
-        
-            builder.Property(r => r.ConcurrencyToken)
-                .IsRowVersion()
-                .HasColumnName("xmin");
+
+        builder.Property(r => r.ConcurrencyToken)
+            .HasColumnName("xmin")
+            .IsRowVersion();
 
         // Indexes
         builder.HasIndex(r => r.Key)

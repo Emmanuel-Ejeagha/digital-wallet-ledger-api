@@ -35,6 +35,6 @@ namespace DigitalWallet.Infrastructure.Entities
         /// <summary>
         /// Concurrency token to prevent race conditions (row version).
         /// </summary>
-        public byte[] ConcurrencyToken { get; set; } = Array.Empty<byte>();
+        public uint ConcurrencyToken { get; set; }
     }
 }
