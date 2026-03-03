@@ -4,7 +4,19 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Nuke all EmbeddedResource items from orbit -->
+    <EmbeddedResource Remove="@(EmbeddedResource)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="$(MSBuildProjectDirectory)/**/*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DigitalWallet.Application\DigitalWallet.Application.csproj" />
