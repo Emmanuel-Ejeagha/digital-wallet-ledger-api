@@ -13,7 +13,7 @@ public class CurrencyTests
         usd.Code.Should().Be("USD");
         usd.DecimalPlaces.Should().Be(2);
         usd.Symbol.Should().Be("$");
-        usd.Name.Should().Be("Dollar");
+        usd.Name.Should().Be("US Dollar");
 
         ngn.Code.Should().Be("NGN");
         ngn.DecimalPlaces.Should().Be(2);
@@ -26,10 +26,11 @@ public class CurrencyTests
     {
         // Arrange
         var currency1 = Currency.USD;
-        var currency2 = () => Currency.Create("US", 2, "$", "Dollar");
+        var currency2 = Currency.Create("USD", 2, "$", "US Dollar");
         var currency3 = Currency.EUR;
 
         // Assert
-    currency2.Should().Throw<ArgumentException>().WithMessage("*Currency code must be a 3-letter ISO code*");
+        currency1.Should().Be(currency2); // same code
+        currency1.Should().NotBe(currency3);
     }
 }

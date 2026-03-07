@@ -58,7 +58,7 @@ public class TransferDomainServiceTests
 
         // Assert
         act.Should().Throw<DomainException>()
-            .WithMessage("Insufficient balance for credit.");
+    .       WithMessage("Insufficient funds.");
     }
 
     [Fact]

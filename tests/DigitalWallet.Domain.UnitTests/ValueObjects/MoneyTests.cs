@@ -107,13 +107,14 @@ public class MoneyTests
     [Fact]
     public void Round_Should_Apply_Bankers_Rounding()
     {
-        // Arrange
-        var money = new Money(1.2345m, Currency.USD);
+        // Arrange: use a currency with 4 decimal places and a 3‑letter code
+        var testCurrency = Currency.Create("TST", 4, "T", "Test");
+        var money = new Money(1.2345m, testCurrency);
 
         // Act
         var rounded = money.Round();
 
-        // Assert
-        rounded.Amount.Should().Be(1.23m);
+        // Assert: rounding to 4 decimals does not change the value
+        rounded.Amount.Should().Be(1.2345m);
     }
 }

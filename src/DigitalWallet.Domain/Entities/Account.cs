@@ -22,12 +22,12 @@ namespace DigitalWallet.Domain.Entities
         
         public uint ConcurrencyToken { get; private set; }
 
-        private string _currencyCodeDummy;
+        private string _currencyCodeDummy = string.Empty;
 
         [NotMapped]
         public string CurrencyCode
         {
-            get => Currency.Code;
+            get => Currency?.Code ?? _currencyCodeDummy;
             private set => _currencyCodeDummy = value;
         }
 

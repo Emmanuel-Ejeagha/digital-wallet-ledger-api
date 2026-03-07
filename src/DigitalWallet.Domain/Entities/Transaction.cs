@@ -15,7 +15,11 @@ public class Transaction : AggregateRoot
 
     public IReadOnlyCollection<LedgerEntry> Entries => _entries.AsReadOnly();
 
-    private Transaction() { } // EF Core
+    private Transaction()
+    {
+        Reference = null!;
+        IdempotencyKey = null!;
+    } // EF Core
 
     public Transaction(string reference, string description, IdempotencyKey idempotencyKey) : base()
     {

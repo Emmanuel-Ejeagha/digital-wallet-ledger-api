@@ -23,8 +23,19 @@ public class KycSubmission : AggregateRoot
     public string? ReviewNotes { get; private set; }
     public string? ReviewedBy { get; private set; }
 
-    private KycSubmission() { }
-
+    private KycSubmission()
+    {
+        FirstName = null!;
+        LastName = null!;
+        AddressLine1 = null!;
+        City = null!;
+        State = null!;
+        PostalCode = null!;
+        Country = null!;
+        DocumentType = null!;
+        DocumentNumber = null!;
+        DocumentFilePath = null!;
+    }
     public KycSubmission(
         Guid userId,
         string firstName,
@@ -62,6 +73,7 @@ public class KycSubmission : AggregateRoot
         Country = country;
         DocumentType = documentType;
         DocumentNumber = documentNumber;
+        DocumentFilePath = documentFilePath ?? throw new ArgumentNullException(nameof(documentFilePath));
         Status = KycStatus.Pending;
         SubmittedAt = SubmittedAt;
     }

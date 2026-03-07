@@ -10,7 +10,13 @@ public class User : AuditableEntity
     public string LastName { get; private set; } = string.Empty;
     public bool IsActive { get; private set; }
 
-    private User() { } // EF Core
+    private User()
+    {
+        Auth0UserId = null!;
+        Email = null!;
+        FirstName = null!;
+        LastName = null!;
+    }
 
     public User(string auth0UserId, string email, string firstName, string lastname) : base()
     {

@@ -64,7 +64,7 @@ public class TransactionTests
 
         // Assert
         act.Should().Throw<DomainException>()
-            .WithMessage("Cannot add entry to a non‑pending transaction.");
+            .WithMessage("Cannot add entry to a non-pending transaction.");
     }
 
     [Fact]
@@ -80,7 +80,7 @@ public class TransactionTests
 
         // Assert
         act.Should().Throw<DomainException>()
-            .WithMessage("Double‑entry invariant violated*");
+    .       WithMessage("Double-entry invariant violated*");
     }
 
     [Fact]
