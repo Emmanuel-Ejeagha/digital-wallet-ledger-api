@@ -6,18 +6,14 @@ public class GetAccountBalanceQueryHandler : IRequestHandler<GetAccountBalanceQu
     private readonly ICurrentUserService _currentUserService;
     private readonly IMapper _mapper;
 
-    public GetAccountBalanceQueryHandler()
-    {
-    }
-
     public GetAccountBalanceQueryHandler(
         IAccountRepository accountRepository,
         ICurrentUserService currentUserService,
         IMapper mapper)
     {
-        _accountRepository = accountRepository;
-        _currentUserService = currentUserService;
-        _mapper = mapper;
+        _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
+            _currentUserService = currentUserService ?? throw new ArgumentNullException(nameof(currentUserService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
     public async Task<AccountDto> Handle(GetAccountBalanceQuery request, CancellationToken cancellationToken)
